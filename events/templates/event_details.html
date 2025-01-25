@@ -1,0 +1,25 @@
+{% extends "master.html" %}
+{% load static %}
+{% block title %}event details{% endblock  %}
+{% block content %}
+  <div>
+    
+    <h2 class="text-4xl font-semibold">Event Details</h2>
+    <div class="my-4">
+      <img src="{% static "images/dumyEvent.jpeg" %}" alt=""/>
+      <h2 class="text-xl ">{{event}}</h2>
+      <p>{{event.description}}</p>
+      <div>
+        <p><span>{{event.date}}</span><span>{{event.time}}</span></p>
+        <p>
+          <span>{{event.location}}</span><span>{{event.category}}</span>
+        </p>
+      </div>
+
+
+
+
+
+    </div>
+  </div>
+{% endblock  %}

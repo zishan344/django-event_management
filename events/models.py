@@ -9,15 +9,22 @@ class Event(models.Model):
     time = models.TimeField()
     location = models.CharField(max_length=250)
     category = models.ForeignKey('Category',on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name 
 
 class Participant(models.Model):
     """Class representing a Participant"""
     name = models.CharField(max_length=250)
     email = models.EmailField(max_length=250)
     attend_to= models.ManyToManyField(Event,related_name='event')
+    def __str__(self):
+        return self.name 
+
     # many to many relationships with event
 
 class Category(models.Model):
     """ class representing a Category """
     name = models.CharField(max_length=250)
     description = models.TextField()
+    def __str__(self):
+        return self.name
