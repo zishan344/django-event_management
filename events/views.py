@@ -53,7 +53,7 @@ def events(request):
     context={
         'totalEvent':totalEvent
     }
-    return render(request, 'events.html', context)
+    return render(request, 'AllEvents/events.html', context)
 
 
 # event details
@@ -63,7 +63,7 @@ def event_details(request,id):
     context={
         'event':event
     }
-    return render(request, 'event_details.html',context)
+    return render(request, 'AllEvents/event_details.html',context)
 
 
 
