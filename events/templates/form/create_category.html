@@ -1,0 +1,20 @@
+{% extends "master.html" %}
+{% block title %} create category {% endblock  %}
+{% block content %}
+<div class="border-sky-100 border w-full md:w-1/2 mx-auto shadow-md rounded-md px-4 py-4 my-20">
+  <h1 class="text-center text-xl text-semibold mb-3">Create Event</h1>
+  {% if messages %}
+    {% for message in messages %}
+      <div class="px-2 py-1 {% if message.tags == 'success' %}bg-green-500{% endif %} ">{{ message }}</div>
+    {% endfor %}
+  {% endif %} 
+    
+  <form method="POST" action="">
+      {% csrf_token %}
+      {{ create_category_form.as_p }}
+      <button class="my-2 bg-red-400 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-500" type="submit" name="submit_category">Save</button>
+  </form>
+  </div>
+{% endblock  %}
+
+

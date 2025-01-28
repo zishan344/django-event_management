@@ -1,0 +1,203 @@
+{% extends "master.html" %}
+{% block title %}dashboard{% endblock title %}
+{% block content %}
+{% load static %}
+<div class="my-20">
+  <h5 class="mb-4 text-3xl text-center font-bold tracking-tight text-gray-500 dark:text-white">
+    <span class="text-red-400">Eventure</span> Dashboard
+  </h5>
+
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+    <!-- Total Participants -->
+    <div class="bg-red-200 p-6 rounded-2xl text-center shadow-lg transition-transform hover:scale-105">
+      <h2 class="text-xl text-gray-800 font-bold">Total Participants</h2>
+      <h3 class="font-mono text-gray-700 text-2xl font-semibold mt-2">{{total_participants}}</h3>
+    </div>
+  
+    <!-- Total Events -->
+    <div class="bg-green-200 p-6 rounded-2xl text-center shadow-lg transition-transform hover:scale-105">
+      <h2 class="text-xl text-gray-800 font-bold">Total Events</h2>
+      <h3 class="font-mono text-gray-700 text-2xl font-semibold mt-2">{{total_events}}</h3>
+    </div>
+  
+    <!-- Upcoming Events -->
+    <div class="bg-blue-200 p-6 rounded-2xl text-center shadow-lg transition-transform hover:scale-105">
+      <h2 class="text-xl text-gray-800 font-bold">Upcoming Events</h2>
+      <h3 class="font-mono text-gray-700 text-2xl font-semibold mt-2">{{upcoming_events}}</h3>
+    </div>
+  
+    <!-- Past Events -->
+    <div class="bg-yellow-200 p-6 rounded-2xl text-center shadow-lg transition-transform hover:scale-105">
+      <h2 class="text-xl text-gray-800 font-bold">Past Events</h2>
+      <h3 class="font-mono text-gray-700 text-2xl font-semibold mt-2">{{past_events}}</h3>
+    </div>
+  </div>
+  
+  <div class="my-10">
+    <h5 class="mb-4 text-xl text-start font-bold tracking-tight text-gray-500 dark:text-white">
+      <span class="">Todays Event
+    </h5>
+    {% for event in todays_events %}
+      <div class="my-2 rounded-md">
+        <article
+        class="w-full grid grid-cols-1 md:grid-cols-6 items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+        >
+        <div class="md:col-span-2">
+          <img
+          class="object-cover w-full rounded-t-lg h-1/3 md: md:rounded-none md:rounded-s-lg"
+          src="{% static 'images/bg-2.jpg' %}"
+          alt="Event banner"
+          />
+        </div>
+          
+          <div class=" md:col-span-4 flex flex-col justify-between p-4">
+            <div class="flex justify-between gap-4 flex-wrap items-center">
+              <p class="text-sm "><span>Category :</span> <span class="bg-red-300 px-1 rounded-md">{{event.category}}</span></p>
+              <p class="text-sm "><span>Location :</span> <span class="bg-red-300 px-1 rounded-md">{{event.location}}</span></p>
+            </div>
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"> {{event}}
+            </h5>
+            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+              {{event.description}}
+            </p>
+            <div class="my-2 flex justify-start gap-4 flex-wrap items-center">
+              
+            
+              <div>
+                <p class="text-sm text-center flex flex-col"><span>Date</span> <span class=" font-mono font-semibold ">{{event.date}}</span></p>
+              </div>
+              <div>
+                <p class="text-sm text-center flex flex-col"><span>Time</span> <span class=" font-mono font-semibold ">{{event.time}}</span></p>
+              </div>
+              <div>
+                <p class="text-sm text-center flex flex-col"><span>Total Participant</span> <span class="font-mono font-semibold">{{event.total_participants}}</span></p>
+              </div>
+              <div class="place-items-start md:place-items-end">
+                <p class="text-sm "><a href="{% url "event-details" event.id %}" class =" bg-red-300 hover:bg-red-400 px-2 py-1 rounded-md "> Event details</a></span></p>
+              </div>
+            </div>
+          </div>
+          
+      </article>
+      </div>
+      {% endfor %}
+  </div>
+<div class="my-10">
+    <h5 class="mb-4 text-xl text-start font-bold tracking-tight text-gray-500 dark:text-white">
+      <span class="">All Events
+    </h5>
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <caption class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+      <a href="{% url "create-event" %}" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Create Event </a>
+  </caption>
+    <thead class="text-xs text-gray-700 uppercase  bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+              <th scope="col" class="px-6 py-3">
+                  Event Name
+              </th>
+              <th scope="col" class="px-6 py-3">
+                  Location
+              </th>
+              <th scope="col" class="px-6 py-3">
+                  Category
+              </th>
+              <th scope="col" class="px-6 py-3">
+                  Date
+              </th>
+              <th scope="col" class="px-6 py-3">
+                  <span class="sr-only">Action</span>
+              </th>
+          </tr>
+      </thead>
+      <tbody>
+        {% for event in events %}
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {{event.name}}
+                  <p class="text-sm mt-2"><a href="{% url "event-details" event.id %}" class =" bg-red-300 hover:bg-red-400 px-2 py-1 rounded-md ">details</a></span></p>
+              </th>
+              <td class="px-6 py-4">
+                  {{event.location}}
+              </td>
+              <td class="px-6 py-4">
+                  {{event.category}}
+              </td>
+              <td class="px-6 py-4">
+                  {{event.date}}
+              </td>
+              <td class="px-6 py-4 text-right">
+                <div class="flex gap-4 items-center">
+                  <form action="{% url "event-update" event.id %}" method="POST">
+                    {% csrf_token %}
+                      <button type="submit" class =" text-black bg-green-400 px-2 py-1 rounded-md ">Edit</button>
+                    </form>
+              
+                    <form action="{% url "event-delete" event.id %}" method='POST'>
+                      {% csrf_token %}
+                      <button type='submit' class="bg-red-500 py-1 px-2 rounded-md text-white">Delete</button>
+                  </form>
+                </div>
+              </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</div>
+
+<div class="my-10">
+    <h5 class="mb-4 text-xl text-start font-bold tracking-tight text-gray-500 dark:text-white">
+      <span class="">All Category
+    </h5>
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <caption class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+      <a href="{% url "create-category" %}" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Create category </a>
+  </caption>
+    <thead class="text-xs text-gray-700 uppercase  bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+              <th scope="col" class="px-6 py-3">
+                  Name
+              </th>
+              <th scope="col" class="px-6 py-3">
+                  description
+              </th>
+              <th scope="col" class="px-6 py-3">
+                  <span class="sr-only">Action</span>
+              </th>
+          </tr>
+      </thead>
+      <tbody>
+        {% for category in categorys %}
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {{category.name}}
+                  
+                </th>
+              <td class="px-6 py-4">
+                  {{category.description}}
+              </td>
+              <td class="px-6 py-4 text-right">
+                <div class="flex gap-4 items-center">
+                  <form action="{% url "update-category" category.id %}" method="POST">
+                    {% csrf_token %}
+                      <button type="submit" class =" text-black bg-green-400 px-2 py-1 rounded-md ">Edit</button>
+                    </form>
+              
+                    <form action="{% url "delete-category" category.id %}" method='POST'>
+                      {% csrf_token %}
+                      <button type='submit' class="bg-red-500 py-1 px-2 rounded-md text-white">Delete</button>
+                  </form>
+                </div>
+              </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</div>
+
+    
+  </div>
+</div>
+
+{% endblock content %}

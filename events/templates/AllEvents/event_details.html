@@ -2,24 +2,61 @@
 {% load static %}
 {% block title %}event details{% endblock  %}
 {% block content %}
-  <div>
-    
-    <h2 class="text-4xl font-semibold">Event Details</h2>
-    <div class="my-4">
-      <img src="{% static "images/dumyEvent.jpeg" %}" alt=""/>
-      <h2 class="text-xl ">{{event}}</h2>
-      <p>{{event.description}}</p>
-      <div>
-        <p><span>{{event.date}}</span><span>{{event.time}}</span></p>
-        <p>
-          <span>{{event.location}}</span><span>{{event.category}}</span>
-        </p>
+  <div class="my-20">
+    <h5 class="mb-4 text-3xl text-center font-bold tracking-tight text-gray-500 dark:text-white">
+      <span class="text-red-400">Event</span> Details
+    </h5>
+    <div class="my-10">
+      <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+        <div class="md:col-span-4">
+          <img class="object-cover w-full h-1/2" src="{% static "images/bg-1.jpg" %}" alt=""/>
+          <h2 class="text-2xl text-gray-900 font-sans mt-3 mb-5 font-semibold">{{event}}</h2>
+          <div class="my-2 flex justify-start md:justify-between gap-2 flex-wrap items-center">
+              
+            
+            <div class="bg-red-300 px-2 py-1 rounded-md">
+              <p class="text-center font-semibold flex flex-col"><span>Date</span> <span class=" font-mono font-semibold ">{{event.date}}</span></p>
+            </div>
+            <div class="bg-red-300 px-2 py-1 rounded-md">
+              <p class="font-semibold text-center flex flex-col"><span>Time</span> <span class=" font-mono font-semibold ">{{event.time}}</span></p>
+            </div>
+            <div class="bg-red-300 px-2 py-1 rounded-md">
+              <p class=" text-center flex flex-col font-semibold"><span>Total Participant</span> <span class="font-mono">{{event.total_participants}}</span></p>
+            </div>
+            <div class="bg-red-300 px-2 py-1 rounded-md">
+              <p class="flex text-center font-semibold flex-col"><span>Category</span> <span class="font-mono ">{{event.category}}</span></p>
+            </div>
+            <div class="bg-red-300 px-2 py-1 rounded-md">
+              <p class="flex text-center flex-col font-semibold"><span>Location</span> <span class="font-mono ">{{event.location}}</span></p>
+            </div>  
+          </div>
+          <div class="mt-7">
+            <h3 class="text-lg font-sans font-semibold text-gray-900">Description:</h3>
+            <p class="text-gray-700 mt-3">{{event.description}}</p>
+          </div>
+        </div>
+        <div class="col-span-2 ">
+          <div class="flex justify-end">
+          
+              <a href="{% url "create-participant" %}" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Join Event</a>
+          </div>
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white">Participant Name:</h3>
+            
+            
+          <ul class="space-y-4 text-left text-gray-500 dark:text-gray-400">
+      {% for participant in participants %}
+      <li class="flex items-center space-x-3 rtl:space-x-reverse">
+        <svg class="shrink-0 w-3.5 h-3.5 text-green-500 dark:text-green-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+        </svg>
+       <span>{{participant}}</span>
+      </li>
+{% endfor %}
+</ul>
+
+        </div>
       </div>
-
-
-
-
-
     </div>
+
   </div>
 {% endblock  %}

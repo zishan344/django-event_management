@@ -16,37 +16,39 @@ class StyledFormMixin:
     )
 
     def apply_styled_widgets(self):
-        for field_name, field in self.fields.items():
-            if isinstance(field.widget, forms.TextInput):
-                field.widget.attrs.update({
-                    'class': self.default_classes,
-                    'placeholder': f"Enter {field.label.lower()}",
-                })
-            elif isinstance(field.widget, forms.Textarea):
-                field.widget.attrs.update({
-                    'class': self.default_classes,
-                    'placeholder': f"Enter {field.label.lower()}",
-                    'value':self.initial.get(field_name,'')
-                })
-            elif isinstance(field.widget, forms.SelectDateWidget):
-                field.widget.attrs.update({
-                    "class": self.select_classes,
-                })
-            elif isinstance(field.widget, forms.CheckboxSelectMultiple):
-                field.widget.attrs.update({
-                    "class": "space-y-2 " + self.checkbox_classes,
-                })
-            elif isinstance(field.widget, forms.EmailInput):
-                field.widget.attrs.update({
-                    'class': self.default_classes,
-                    'placeholder': f"Enter {field.label.lower()}",
-                })
-            elif isinstance(field.widget, forms.Select):
-                field.widget.attrs.update({
-                    "class": self.default_classes,
-                })
-                if field_name in self.initial:
-                    field.widget.attrs['value'] = self.initial[field_name]
+      for field_name, field in self.fields.items():
+        if isinstance(field.widget, forms.TextInput):
+            field.widget.attrs.update({
+                'class': self.default_classes,
+                'placeholder': f"Enter {field.label.lower()}",
+            })
+        elif isinstance(field.widget, forms.Textarea):
+            field.widget.attrs.update({
+                'class': self.default_classes,
+                'placeholder': f"Enter {field.label.lower()}",
+            })
+            # Update initial value for Textarea
+            if field_name in self.initial:
+                field.initial = self.initial[field_name]
+        elif isinstance(field.widget, forms.SelectDateWidget):
+            field.widget.attrs.update({
+                "class": self.select_classes,
+            })
+        elif isinstance(field.widget, forms.CheckboxSelectMultiple):
+            field.widget.attrs.update({
+                "class": "space-y-2 " + self.checkbox_classes,
+            })
+        elif isinstance(field.widget, forms.EmailInput):
+            field.widget.attrs.update({
+                'class': self.default_classes,
+                'placeholder': f"Enter {field.label.lower()}",
+            })
+        elif isinstance(field.widget, forms.Select):
+            field.widget.attrs.update({
+                "class": self.default_classes,
+            })
+            if field_name in self.initial:
+                field.widget.attrs['value'] = self.initial[field_name]
 
 
 
@@ -58,6 +60,15 @@ class CategoryModelForm(StyledFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.apply_styled_widgets()
+        print(self.initial)
+        print("descriptions field",self.fields['description'].initial)
+        for field_name, field in self.fields.items():
+            # Check if 'instance' contains initial data
+            if field_name in self.initial:
+                field.widget.attrs['value'] = self.initial[field_name]
+            elif self.instance and getattr(self.instance, field_name, None):
+                field.widget.attrs['value'] = getattr(self.instance, field_name)
+
 
 
 class EventModelForm(StyledFormMixin, forms.ModelForm):
@@ -80,7 +91,7 @@ class EventModelForm(StyledFormMixin, forms.ModelForm):
         self.apply_styled_widgets()
         if self.instance:
             self.fields['description'].initial = self.instance.description
-            self.fields['category'].initial = self.instance.category
+            
         for field_name, field in self.fields.items():
             if field_name in self.initial:
                 field.widget.attrs['value'] = self.initial[field_name]

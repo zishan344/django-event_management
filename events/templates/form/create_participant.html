@@ -1,0 +1,20 @@
+{% extends "master.html" %}
+{% block title %} create Participant {% endblock  %}
+{% block content %}
+<div class="w-full md:w-1/2 mx-auto border-sky-100 border shadow-md rounded-md px-4 py-4 my-20">
+  <h1 class="text-center text-xl text-semibold mb-3">Create Participant</h1>
+  {% if messages %}
+    {% for message in messages %}
+      <div class="px-2 py-1 {% if message.tags == 'success' %}bg-green-500{% endif %} ">{{ message }}</div>
+    {% endfor %}
+  {% endif %} 
+
+  <form method="POST" action="">
+      {% csrf_token %}
+      {{ create_participant_form.as_p }}
+      <button class="my-2 bg-red-400 text-white px-4 py-2 rounded-lg shadow-md" type="submit" name="submit_participant">Save</button>
+  </form>
+  </div>
+{% endblock  %}
+
+
