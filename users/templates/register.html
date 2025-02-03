@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="my-20 w-2/4 mx-auto shadow-md p-4 rounded-md">
+  <h2 class="mt-10 mb-5 font-semibold text-center font-mono text-lg md:text-xl lg:text-2xl text-slate-800">Sign Up Your New Account</h2>
+  <form method='POST'>
+    {% csrf_token %}
+    {{ form }}
+    <div class="text-sm my-1 font-medium text-slate-500 dark:text-gray-300">
+      Already have an account? <a href="{% url "sign-in" %}" class="text-red-700 hover:underline dark:text-red-500">Log In</a>
+  </div>
+    <button class='bg-red-500 px-2 py-1 rounded text-white mt-3' type="submit">Sign up</button>
+</form>
+</div>
+{% endblock content %}

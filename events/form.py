@@ -5,7 +5,7 @@ from .models import Category, Event, Participant
 class StyledFormMixin:
     """Mixin to apply style to form fields."""
     default_classes = (
-        "px-2 border-2 border-gray-300 w-full focus:outline-none rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-300 form-control"
+        "px-2 border-2 border-red-300 w-full focus:outline-none rounded-lg shadow-sm focus:border-red-500 focus:ring focus:ring-red-300 form-control"
     )
     checkbox_classes = (
         "form-checkbox text-blue-500 focus:ring focus:ring-blue-300 form-control"
@@ -18,6 +18,11 @@ class StyledFormMixin:
     def apply_styled_widgets(self):
       for field_name, field in self.fields.items():
         if isinstance(field.widget, forms.TextInput):
+            field.widget.attrs.update({
+                'class': self.default_classes,
+                'placeholder': f"Enter {field.label.lower()}",
+            })
+        elif isinstance(field.widget, (forms.TextInput, forms.PasswordInput)):
             field.widget.attrs.update({
                 'class': self.default_classes,
                 'placeholder': f"Enter {field.label.lower()}",
