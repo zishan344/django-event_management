@@ -9,22 +9,28 @@
 
 
 {% comment %} card counter {% endcomment %}
-  {% include "dashboard/event_card_counter.html" with past_events=past_events upcoming_events=upcoming_events total_events=total_events total_participants=total_participants%}
-  
-  {% comment %} create a role {% endcomment %}
-  {% include "dashboard/allRole.html" with groups=groups %}
+  {% include "dashboard/event_card_counter.html" with past_events=past_events upcoming_events=upcoming_events total_events=total_events total_participants=total_participants %}
 
 
   {% comment %} todays event {% endcomment %}
   {% include "dashboard/todaysEvent.html" with todays_events=todays_events %}
 
-  
 
-{% comment %} all event {% endcomment %}
+  {% comment %} Attend Event {% endcomment %}
+  {% include "dashboard/AttendEvent.html" with attendEvents=attendEvents %}
+
+
+  {% comment %} all user {% endcomment %}
+  {% include "dashboard/allUser.html" with users=users %}
+
+
+  {% comment %} create a role {% endcomment %}
+  {% include "dashboard/allRole.html" with groups=groups %}
+
+
+
+  {% comment %} all event {% endcomment %}
   {% include "dashboard/event_list.html" with events=events %}
-
-
-
 
 
   {% comment %} All category {% endcomment %}

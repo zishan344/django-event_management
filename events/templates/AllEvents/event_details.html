@@ -21,7 +21,7 @@
               <p class="font-semibold text-center flex flex-col"><span>Time</span> <span class=" font-mono font-semibold ">{{event.time}}</span></p>
             </div>
             <div class="bg-red-300 px-2 py-1 rounded-md">
-              <p class=" text-center flex flex-col font-semibold"><span>Total Participant</span> <span class="font-mono">{{event.total_participants}}</span></p>
+              <p class=" text-center flex flex-col font-semibold"><span>Total Participant</span> <span class="font-mono">{{event.participant.count}}</span></p>
             </div>
             <div class="bg-red-300 px-2 py-1 rounded-md">
               <p class="flex text-center font-semibold flex-col"><span>Category</span> <span class="font-mono ">{{event.category}}</span></p>
@@ -38,13 +38,23 @@
         <div class="col-span-2 ">
           <div class="flex justify-end">
           
-              <a href="{% url "create-participant" %}" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Join Event</a>
+            {% if request.user in event.participant.all %}
+            <button class="text-slate-800 bg-red-200 dark:bg-red-300 cursor-not-allowed font-medium rounded-lg text-sm px-2 py-1 text-center" disabled>
+              ✅ RSVP'd
+            </button>
+          {% else %}
+            <a href="{% url 'rsvp-event' event.id %}">
+              <button class="bg-red-500 hover:bg-red-600 px-2 py-1 rounded-md">
+                RSVP
+              </button>
+            </a>
+          {% endif %}
           </div>
           <h3 class="text-lg font-medium text-gray-900 dark:text-white">Participant Name:</h3>
             
             
           <ul class="space-y-4 text-left text-gray-500 dark:text-gray-400">
-      {% for participant in participants %}
+      {% for participant in event.participant.all %}
       <li class="flex items-center space-x-3 rtl:space-x-reverse">
         <svg class="shrink-0 w-3.5 h-3.5 text-green-500 dark:text-green-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>

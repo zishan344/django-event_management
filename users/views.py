@@ -1,10 +1,10 @@
-from django.shortcuts import redirect, render, HttpResponse,get_object_or_404
+from django.shortcuts import redirect, render,get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, logout
-from .form import RegisterForm, LoginForm, CreateGroupForm
+from .form import RegisterForm, LoginForm, CreateGroupForm, AssignRoleForm
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
-from django.http import HttpResponseBadRequest, HttpResponseNotFound
+from django.http import HttpResponseBadRequest
 
 # Create your views here.
 
@@ -61,6 +61,25 @@ def CreateRole (request):
       else:
           messages.error(request,"form is not valid")
   return render(request, 'createRole.html', {'form': form})
+
+# change role
+def ChangeRole(request,user_id):
+    user = User.objects.get(id = user_id)
+    form = AssignRoleForm()
+    if request.method == 'POST':
+        form = AssignRoleForm(request.POST)
+        if form.is_valid():
+            role = form.cleaned_data.get('role')
+            user.groups.clear()
+            user.groups.add(role)
+            messages.success(request, f"User {user.username} has been assigned to the {role}")
+            return redirect('dashboard')
+    context = {
+        "form_title": "Update Role",
+        "form": form,
+        "btn_content":"Change"
+    }
+    return render(request,"globalForm.html",context)
 
 def activate_user(request, user_id, token):
     user = get_object_or_404(User, id=user_id)

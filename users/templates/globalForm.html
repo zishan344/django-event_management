@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="my-28 shadow-lg w-2/4 mx-auto px-2 py-2">
+  {% if messages %}
+    {% for message in messages %}
+    <div class="px-2 py-1 {% if message.tags == 'success' %}bg-green-500{% endif %} ">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+<h2 class="font-mono text-xl text-slate-800 font-semibold">{{form_title}}</h2>
+<form method="POST">
+  {% csrf_token %}
+  {{form}}
+  <button  type="submit" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-1.5 me-2 my-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">{{btn_content}}</button>
+</form>
+</div>
+{% endblock content %}

@@ -101,7 +101,8 @@
       </div>
 
       {% comment %} showing event card {% endcomment %}
-      {% for event in totalEvent %}
+    {% for event in totalEvent %}
+    
       <div class="my-2 rounded-md">
         <article
         class="w-full grid grid-cols-1 md:grid-cols-6 items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
@@ -134,17 +135,34 @@
                 <p class="text-sm text-center flex flex-col"><span>Time</span> <span class=" font-mono font-semibold ">{{event.time}}</span></p>
               </div>
               <div>
-                <p class="text-sm text-center flex flex-col"><span>Total Participant</span> <span class="font-mono font-semibold">{{event.total_participants}}</span></p>
+                <p class="text-sm text-center flex flex-col"><span>Total Participant</span> <span class="font-mono font-semibold">{{event.participant.count}}</span></p>
               </div>
               <div class="place-items-start md:place-items-end">
-                <p class="text-sm "><a href="{% url "event-details" event.id %}" class =" bg-red-300 hover:bg-red-400 px-2 py-1 rounded-md "> Event details</a></span></p>
+                <p class="text-sm "><a href="{% url "event-details" event.id %}" class =" bg-red-300 hover:bg-red-400 px-2 py-1 rounded-md "> Details </a></span></p>
+              </div>
+              <div class="place-items-start md:place-items-end">
+                <p class="text-sm ">
+                  {% comment %} rsvp button {% endcomment %}
+              {% if request.user in event.participant.all %}
+                <button class="text-slate-800 bg-red-200 dark:bg-red-300 cursor-not-allowed font-medium rounded-lg text-sm px-2 py-1 text-center" disabled>
+                  ✅ RSVP'd
+                </button>
+              {% else %}
+                <a href="{% url 'rsvp-event' event.id %}">
+                  <button class="bg-red-300 hover:bg-red-400 px-2 py-1 rounded-md">
+                    RSVP
+                  </button>
+                </a>
+              {% endif %}
+                </span></p>
               </div>
             </div>
           </div>
           
       </article>
       </div>
-      {% endfor %}
+
+    {% endfor %}
   </div>
     
   </div>

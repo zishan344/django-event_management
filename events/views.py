@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from .models import Event,Category
 from django.http import HttpResponse
 from .form import CategoryModelForm, EventModelForm
@@ -6,7 +6,8 @@ from django.contrib import messages
 from django.db.models import Count,Q
 from django.utils.timezone import now
 from datetime import datetime
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group,User
+from django.contrib.auth.decorators import login_required
 def showHome (request):
     return render(request,'home/home.html')
 
@@ -19,6 +20,13 @@ def dashboard(request):
     upcoming_events = events.filter(date__gt=today_date).count()
     past_events = events.filter(date__lt=today_date).count()
     groups = Group.objects.all()
+    users = User.objects.all()
+    user_groups = users[4].groups.all()
+    attendEvents = Event.objects.filter(participant=request.user)
+    if user_groups.exists():
+        print("User group:", user_groups[0])
+    else:
+        print("User has no group")
     context = {
         'events': events,
         'total_events': total_events,
@@ -27,7 +35,9 @@ def dashboard(request):
         'upcoming_events': upcoming_events,
         'past_events': past_events,
         'categorys': categorys,
-        'groups':groups
+        'groups':groups,
+        'users':users,
+        'attendEvents': attendEvents
     }
     return render(request,'dashboard/dashboard.html',context)
 
@@ -50,6 +60,8 @@ def create_category(request):
         "submit":"submit_category"
     }
     return render(request, "form/form.html", context)
+
+
 def update_category(request, id):
     category = Category.objects.get(id=id)
     print("category field",category)
@@ -67,6 +79,7 @@ def update_category(request, id):
         "submit": "Update Category"
     }
     return render(request, "form/form.html", context)
+
 
 def delete_category(request,id):
     if request.method == "POST":
@@ -120,7 +133,7 @@ def event_delete(request,id):
 
 
 def events(request):
-    totalEvent = Event.objects.annotate(total_participants=Count('event'))
+    totalEvent = Event.objects.all()
     
     # query parameters
     name_query = request.GET.get('name', None)
@@ -147,7 +160,7 @@ def events(request):
     
     if category_query:
         if category_query =="all":
-            totalEvent = Event.objects.annotate(total_participants=Count('event'))
+            totalEvent = Event.objects.all()
         else:
             totalEvent = totalEvent.filter(category__id__in=category_query.split(','))
     context= {
@@ -159,13 +172,18 @@ def events(request):
 
 # event details
 def event_details(request,id):
-    event = Event.objects.annotate(total_participants=Count('event')).get(id=id)
-    participants =event.participant
-    print(participants)
+    event = Event.objects.all().get(id=id)
+    participants=["rakib","rahim","karim","dummy bossa"]
     context={
         'event':event,
         'participants':participants
     }
     return render(request, 'AllEvents/event_details.html',context)
 
-
+@login_required
+def Rsvp_event(request,event_id):
+    event = get_object_or_404(Event, id=event_id)
+    if request.user not in event.participant.all():
+        event.participant.add(request.user)
+        return redirect('events')
+    return messages.error(request,"Already RSVP'd")
