@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from .models import Event,Participant,Category
+from .models import Event,Category
 from django.http import HttpResponse
-from .form import CategoryModelForm, EventModelForm , ParticipantModelForm
+from .form import CategoryModelForm, EventModelForm
 from django.contrib import messages
 from django.db.models import Count,Q
 from django.utils.timezone import now
 from datetime import datetime
+from django.contrib.auth.models import Group
 def showHome (request):
     return render(request,'home/home.html')
 
@@ -14,20 +15,25 @@ def dashboard(request):
     events = Event.objects.select_related('category').all()
     categorys = Category.objects.prefetch_related('event_set').all()
     total_events = events.count()
-    total_participants = Participant.objects.values('email').distinct().count()
     todays_events = events.filter(date=today_date)
     upcoming_events = events.filter(date__gt=today_date).count()
     past_events = events.filter(date__lt=today_date).count()
+    groups = Group.objects.all()
     context = {
         'events': events,
         'total_events': total_events,
-        'total_participants': total_participants,
+        'total_participants': 10,
         'todays_events': todays_events,
         'upcoming_events': upcoming_events,
         'past_events': past_events,
-        'categorys': categorys
+        'categorys': categorys,
+        'groups':groups
     }
     return render(request,'dashboard/dashboard.html',context)
+
+def RoleDetails(request):
+    groups = Group.objects.all()
+    return render(request, "dashboard/roleDetails.html",{"groups":groups})
 
 def create_category(request):
     create_category_form = CategoryModelForm()
@@ -113,23 +119,6 @@ def event_delete(request,id):
         return redirect('dashboard')
 
 
-def create_participant(request):
-    create_participant_form = ParticipantModelForm()
-    if request.method == "POST":
-        if "submit_participant" in request.POST:
-            create_participant_form = ParticipantModelForm(request.POST)
-            if create_participant_form.is_valid():
-                create_participant_form.save()
-                messages.success(request,"Joined successfully")
-                return redirect("create-participant")  
-    context = {
-        "create_form": create_participant_form,
-        "form_title":"Create Participant",
-        "submit":"submit_participant"
-    }
-    return render(request, "form/form.html", context)
-
-
 def events(request):
     totalEvent = Event.objects.annotate(total_participants=Count('event'))
     
@@ -171,7 +160,7 @@ def events(request):
 # event details
 def event_details(request,id):
     event = Event.objects.annotate(total_participants=Count('event')).get(id=id)
-    participants =event.event.all()
+    participants =event.participant
     print(participants)
     context={
         'event':event,
@@ -180,31 +169,3 @@ def event_details(request,id):
     return render(request, 'AllEvents/event_details.html',context)
 
 
-def events_form(request):
-    """Handle events request"""
-    category_form = CategoryModelForm()
-    event_create_form = EventModelForm()
-    participant_create_form = ParticipantModelForm()
-
-    if request.method == "POST":
-        if "submit_category" in request.POST:
-            category_form = CategoryModelForm(request.POST)
-            if category_form.is_valid():
-                category_form.save()
-                return redirect("events-form")  
-        elif "submit_event" in request.POST:
-            event_create_form = EventModelForm(request.POST)
-            if event_create_form.is_valid():
-                event_create_form.save()
-                return redirect("events")  
-        elif "submit_participant" in request.POST:
-            participant_create_form = ParticipantModelForm(request.POST)
-            if participant_create_form.is_valid():
-                participant_create_form.save()
-                return redirect("events") 
-    context = {
-        "category_form": category_form,
-        "event_create_form": event_create_form,
-        "participant_create_form": participant_create_form,
-    }
-    return render(request, "test.html", context)

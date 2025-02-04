@@ -1,0 +1,52 @@
+{% load static %}
+<div class="my-10">
+  <h5 class="mb-4 text-xl text-start font-bold tracking-tight text-gray-500 dark:text-white">
+   <span class="">All Category
+ </h5>
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+   <caption class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+   <a href="{% url "create-category" %}" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Create category </a>
+   </caption>
+   <thead class="text-xs text-gray-700 uppercase  bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+       <tr>
+           <th scope="col" class="px-6 py-3">
+               Name
+           </th>
+           <th scope="col" class="px-6 py-3">
+               description
+           </th>
+           <th scope="col" class="px-6 py-3">
+               <span class="sr-only">Action</span>
+           </th>
+       </tr>
+   </thead>
+   <tbody>
+     {% for category in categorys %}
+       <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+           <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+               {{category.name}}
+               
+             </th>
+           <td class="px-6 py-4">
+               {{category.description}}
+           </td>
+           <td class="px-6 py-4 text-right">
+             <div class="flex gap-4 items-center">
+               <form action="{% url "update-category" category.id %}" method="POST">
+                 {% csrf_token %}
+                   <button type="submit" class =" text-black bg-green-400 px-2 py-1 rounded-md ">Edit</button>
+                 </form>
+           
+                 <form action="{% url "delete-category" category.id %}" method='POST'>
+                   {% csrf_token %}
+                   <button type='submit' class="bg-red-500 py-1 px-2 rounded-md text-white">Delete</button>
+               </form>
+             </div>
+           </td>
+       </tr>
+       {% endfor %}
+   </tbody>
+</table>
+</div>    
+</div>

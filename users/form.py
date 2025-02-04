@@ -8,7 +8,7 @@ class RegisterForm(StyledFormMixin,UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name',
-                  'password1', 'password2', 'email']
+                'password1', 'password2', 'email']
 
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
@@ -41,6 +41,9 @@ class CreateGroupForm(StyledFormMixin,forms.ModelForm):
         label='Assign Permission'
     )
     class Meta:
-      model = Group
-      fields = ['name', 'permissions']
+        model = Group
+        fields = ['name', 'permissions']
+    def __init__(self,*args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.apply_styled_widgets()
 

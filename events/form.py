@@ -1,60 +1,43 @@
 from django import forms
-from .models import Category, Event, Participant
-
-
+from .models import Category, Event
 class StyledFormMixin:
     """Mixin to apply style to form fields."""
     default_classes = (
-        "px-2 border-2 border-red-300 w-full focus:outline-none rounded-lg shadow-sm focus:border-red-500 focus:ring focus:ring-red-300 form-control"
+        "px-2 border-2 border-red-300 w-full focus:outline-none rounded-lg shadow-sm "
+        "focus:border-red-500 focus:ring focus:ring-red-300 form-control"
     )
-    checkbox_classes = (
-        "form-checkbox text-blue-500 focus:ring focus:ring-blue-300 form-control"
-    )
+    checkbox_classes = "form-checkbox text-blue-500 focus:ring focus:ring-blue-300 form-control"
     select_classes = (
         "border-2 border-gray-300 w-full rounded-lg shadow-sm "
         "focus:border-blue-500 focus:ring focus:ring-blue-300"
     )
 
     def apply_styled_widgets(self):
-      for field_name, field in self.fields.items():
-        if isinstance(field.widget, forms.TextInput):
-            field.widget.attrs.update({
-                'class': self.default_classes,
-                'placeholder': f"Enter {field.label.lower()}",
-            })
-        elif isinstance(field.widget, (forms.TextInput, forms.PasswordInput)):
-            field.widget.attrs.update({
-                'class': self.default_classes,
-                'placeholder': f"Enter {field.label.lower()}",
-            })
-        elif isinstance(field.widget, forms.Textarea):
-            field.widget.attrs.update({
-                'class': self.default_classes,
-                'placeholder': f"Enter {field.label.lower()}",
-            })
-            # Update initial value for Textarea
-            if field_name in self.initial:
-                field.initial = self.initial[field_name]
-        elif isinstance(field.widget, forms.SelectDateWidget):
-            field.widget.attrs.update({
-                "class": self.select_classes,
-            })
-        elif isinstance(field.widget, forms.CheckboxSelectMultiple):
-            field.widget.attrs.update({
-                "class": "space-y-2 " + self.checkbox_classes,
-            })
-        elif isinstance(field.widget, forms.EmailInput):
-            field.widget.attrs.update({
-                'class': self.default_classes,
-                'placeholder': f"Enter {field.label.lower()}",
-            })
-        elif isinstance(field.widget, forms.Select):
-            field.widget.attrs.update({
-                "class": self.default_classes,
-            })
-            if field_name in self.initial:
-                field.widget.attrs['value'] = self.initial[field_name]
-
+        for field_name, field in self.fields.items():
+            if isinstance(field.widget, (forms.TextInput, forms.PasswordInput, forms.EmailInput)):
+                field.widget.attrs.update({
+                    'class': self.default_classes,
+                    'placeholder': f"Enter {field.label.lower()}",
+                })
+            elif isinstance(field.widget, forms.Textarea):
+                field.widget.attrs.update({
+                    'class': self.default_classes,
+                    'placeholder': f"Enter {field.label.lower()}",
+                })
+                field.widget.attrs['value'] = self.initial.get(field_name, '') 
+            elif isinstance(field.widget, forms.SelectDateWidget):
+                field.widget.attrs.update({
+                    "class": self.select_classes,
+                })
+            elif isinstance(field.widget, forms.CheckboxSelectMultiple):
+                field.widget.attrs.update({
+                    "class": "space-y-2" + self.checkbox_classes,
+                })
+            elif isinstance(field.widget, forms.Select):
+                field.widget.attrs.update({
+                    "class": self.default_classes,
+                })
+                field.widget.attrs['value'] = self.initial.get(field_name, '')  
 
 
 class CategoryModelForm(StyledFormMixin, forms.ModelForm):
@@ -104,8 +87,7 @@ class EventModelForm(StyledFormMixin, forms.ModelForm):
             self.fields['category'].initial = self.instance.category
 
 
-class ParticipantModelForm(StyledFormMixin, forms.ModelForm):
-    """Form for participant creation."""
+""" class ParticipantModelForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Participant
         fields = ['name', 'email', 'attend_to']
@@ -119,3 +101,4 @@ class ParticipantModelForm(StyledFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.apply_styled_widgets()
+"""
