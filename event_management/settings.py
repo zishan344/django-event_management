@@ -144,7 +144,7 @@ EMAIL_HOST_PASSWORD = 'lcmh qfid cymj nite'
 PASSWORD_RESET_TIMEOUT = 14400
 
 
-FRONTEND_URL ="http://127.0.0.1:8000"
+FRONTEND_URL ="https://django-event-management-9iep.onrender.com"
 
 
 MEDIA_URL = '/media/'
