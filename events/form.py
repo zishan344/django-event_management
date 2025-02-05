@@ -62,7 +62,7 @@ class CategoryModelForm(StyledFormMixin, forms.ModelForm):
 class EventModelForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['name', 'description', 'date', 'time', 'location', 'category']
+        fields = ['name', 'description', 'date', 'time', 'location', 'category','image']
         widgets = {
             'date': forms.DateInput(attrs={
                 'type': 'date',
@@ -85,6 +85,7 @@ class EventModelForm(StyledFormMixin, forms.ModelForm):
                 field.widget.attrs['value'] = self.initial[field_name]
         if 'category' in self.fields and hasattr(self.instance, 'category'):
             self.fields['category'].initial = self.instance.category
+
 
 
 """ class ParticipantModelForm(StyledFormMixin, forms.ModelForm):

@@ -92,7 +92,7 @@ def create_event(request):
     create_event_form = EventModelForm()
     if request.method == "POST":
         if "submit_event" in request.POST:
-            create_event_form = EventModelForm(request.POST)
+            create_event_form = EventModelForm(request.POST,request.FILES)
             if create_event_form.is_valid():
                 create_event_form.save()
                 messages.success(request,"event created successfully")

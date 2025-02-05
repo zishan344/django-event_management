@@ -107,11 +107,15 @@
         <article
         class="w-full grid grid-cols-1 md:grid-cols-6 items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
         >
+        {% if event.image %}
+        <img src="{{ event.image.url }}" class=" md:col-span-2 object-cover w-full rounded-t-lg h-96 md:h-auto md: md:rounded-none md:rounded-s-lg">
+        {% else %}
           <img
           class=" md:col-span-2 object-cover w-full rounded-t-lg h-96 md:h-auto md: md:rounded-none md:rounded-s-lg"
           src="{% static 'images/bg-2.jpg' %}"
           alt="Event banner"
           />
+        {% endif %}
           <div class=" md:col-span-4 flex flex-col justify-between p-4 leading-normal">
             <div class="flex justify-between gap-4 flex-wrap items-center">
               <p class="text-sm "><span>Category :</span> <span class="bg-red-300 px-1 rounded-md">{{event.category}}</span></p>
