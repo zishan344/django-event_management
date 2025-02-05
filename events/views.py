@@ -1,29 +1,22 @@
-from django.shortcuts import render, redirect,get_object_or_404
-from .models import Event,Category
-from django.http import HttpResponse
-from .form import CategoryModelForm, EventModelForm
-from django.contrib import messages
-from django.db.models import Count,Q
-from django.utils.timezone import now
 from datetime import datetime
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.models import Group,User
-from django.contrib.auth.decorators import login_required,user_passes_test
-
-def is_admin(user):
-    return user.groups.filter(name="Admin").exists()
-    
-
-def is_organizer(user):
-    return user.groups.filter(name="Organizer").exists()
-
-def is_participant(user):
-    return user.groups.filter(name="Participant").exists()
+from django.contrib import messages
+from django.utils.timezone import now
+from django.db.models import Q
+from .models import Event,Category
+from django.contrib.auth.decorators import login_required,user_passes_test,permission_required
+from .form import CategoryModelForm, EventModelForm
+from users.views import is_admin,is_organizer,is_participant
 
 def showHome (request):
     return render(request,'home/home.html')
+
 @login_required(login_url="sign-in")
 def dashboard(request):
     today_date = now().date()
+    current_month = today_date.month
+    current_year = today_date.year
     events = Event.objects.select_related('category').all()
     categorys = Category.objects.prefetch_related('event_set').all()
     total_events = events.count()
@@ -32,25 +25,36 @@ def dashboard(request):
     past_events = events.filter(date__lt=today_date).count()
     groups = Group.objects.all()
     users = User.objects.all()
-    user_groups = users[4].groups.all()
     attendEvents = Event.objects.filter(participant=request.user)
-    if user_groups.exists():
-        print("User group:", user_groups[0])
-    else:
-        print("User has no group")
+    total_participants = User.objects.filter(rsvp_event__isnull=False).distinct().count()
+    new_this_month = events.filter(date__month=current_month, date__year=current_year).count()
+    previous_month = events.filter(
+        date__month=(current_month - 1) if current_month > 1 else 12,
+        date__year=(current_year if current_month > 1 else current_year - 1)
+    ).count()
+    next_month = events.filter(
+        date__month=(current_month + 1) if current_month < 12 else 1,
+        date__year=(current_year if current_month < 12 else current_year + 1)
+    ).count()
+    last_month = previous_month
     context = {
         'events': events,
         'total_events': total_events,
-        'total_participants': 10,
+        'total_participants': total_participants,
         'todays_events': todays_events,
         'upcoming_events': upcoming_events,
         'past_events': past_events,
         'categorys': categorys,
         'groups':groups,
         'users':users,
-        'attendEvents': attendEvents
+        'attendEvents': attendEvents,
+        'new_this_month': new_this_month,
+        'previous_month': previous_month,
+        'next_month': next_month,
+        'last_month': last_month
     }
     return render(request,'dashboard/dashboard.html',context)
+
 
 
 @login_required(login_url="sign-in")
@@ -60,7 +64,7 @@ def RoleDetails(request):
     return render(request, "dashboard/roleDetails.html",{"groups":groups})
 
 @login_required(login_url="sign-in")
-@user_passes_test(is_admin, login_url="no-permission")
+@permission_required("events.add_category",raise_exception=True,login_url='no-permission')
 def create_category(request):
     create_category_form = CategoryModelForm()
     if request.method == "POST":
@@ -77,8 +81,9 @@ def create_category(request):
     }
     return render(request, "form/form.html", context)
 
+
 @login_required(login_url="sign-in")
-@user_passes_test(is_admin, login_url="no-permission")
+@permission_required("events.change_category",raise_exception=True,login_url='no-permission')
 def update_category(request, id):
     category = Category.objects.get(id=id)
     print("category field",category)
@@ -97,7 +102,8 @@ def update_category(request, id):
     }
     return render(request, "form/form.html", context)
 
-@user_passes_test(is_admin, login_url="no-permission")
+@login_required(login_url="sign-in")
+@permission_required("events.delete_category",raise_exception=True,login_url='no-permission')
 def delete_category(request,id):
     if request.method == "POST":
         category = Category.objects.get(id=id)
@@ -106,6 +112,7 @@ def delete_category(request,id):
         return redirect('dashboard')
 
 @login_required(login_url="sign-in")
+@permission_required("events.add_event",raise_exception=True,login_url='no-permission')
 def create_event(request):
     create_event_form = EventModelForm()
     if request.method == "POST":
@@ -123,6 +130,7 @@ def create_event(request):
     return render(request, "form/form.html", context)
 
 @login_required(login_url="sign-in")
+@permission_required("events.change_event",raise_exception=True,login_url='no-permission')
 def event_update(request,id):
     event = Event.objects.get(id=id)
     create_event_form = EventModelForm(instance=event)
@@ -143,6 +151,7 @@ def event_update(request,id):
 
 # delete 
 @login_required(login_url="sign-in")
+@permission_required("events.delete_event",raise_exception=True,login_url='no-permission')
 def event_delete(request,id):
     if request.method == "POST":
         event = Event.objects.get(id=id)
@@ -190,19 +199,30 @@ def events(request):
 
 
 @login_required(login_url="sign-in")
+@permission_required("events.view_event",raise_exception=True,login_url='no-permission')
 def event_details(request,id):
     event = Event.objects.all().get(id=id)
-    participants=["rakib","rahim","karim","dummy bossa"]
     context={
         'event':event,
-        'participants':participants
     }
     return render(request, 'AllEvents/event_details.html',context)
 
+
 @login_required(login_url="sign-in")
+@user_passes_test(is_participant,login_url='no-permission')
 def Rsvp_event(request,event_id):
     event = get_object_or_404(Event, id=event_id)
     if request.user not in event.participant.all():
         event.participant.add(request.user)
         return redirect('events')
     return messages.error(request,"Already RSVP'd")
+
+@login_required(login_url="sign-in")
+@user_passes_test(is_admin,login_url="no-permission")
+def Delete_participant(request,event_id,participant_id):
+    event = get_object_or_404(Event, id=event_id)
+    participant = get_object_or_404(User, id=participant_id)
+    if participant in event.participant.all():
+        event.participant.remove(participant)
+        return redirect('event-details',id=event.id)
+    return redirect('event-details',id=event.id)

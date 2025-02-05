@@ -1,4 +1,4 @@
-{% extends "master.html" %}
+{% extends "base.html" %}
 {% block title %}dashboard{% endblock title %}
 {% block content %}
 {% load static %}
@@ -11,7 +11,7 @@
 {% if user.groups.all.first.name == "Admin" or user.groups.all.first.name == "Organizer" %}
   {% comment %} organizer/admin {% endcomment %}
   {% comment %} card counter {% endcomment %}
-  {% include "dashboard/event_card_counter.html" with past_events=past_events upcoming_events=upcoming_events total_events=total_events total_participants=total_participants %}
+  {% include "dashboard/event_card_counter.html" with past_events=past_events upcoming_events=upcoming_events total_events=total_events total_participants=total_participants new_this_month=new_this_month previous_month=previous_month next_month=next_month last_month=last_month %}
 
   {% comment %} organizer/admin {% endcomment %}
   {% comment %} todays event {% endcomment %}

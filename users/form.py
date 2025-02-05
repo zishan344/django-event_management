@@ -46,4 +46,7 @@ class CreateGroupForm(StyledFormMixin,forms.ModelForm):
     def __init__(self,*args, **kwargs):
         super().__init__(*args, **kwargs)
         self.apply_styled_widgets()
+        for field_name, field in self.fields.items():
+            if field_name in self.initial:
+                field.widget.attrs['value'] = self.initial[field_name]
 

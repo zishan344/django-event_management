@@ -1,13 +1,24 @@
 from django.shortcuts import redirect, render,get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, logout
-from events.views import is_admin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
 from django.contrib.auth.tokens import default_token_generator
 from .form import RegisterForm, LoginForm, CreateGroupForm, AssignRoleForm
 from django.http import HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required,user_passes_test
 # Create your views here.
+
+def is_admin(user):
+    return user.groups.filter(name="Admin").exists()
+    
+
+def is_organizer(user):
+    return user.groups.filter(name="Organizer").exists()
+
+def is_participant(user):
+    return user.groups.filter(name="Participant").exists()
+
+
 
 def Sign_up(request):
   form = RegisterForm()
@@ -53,7 +64,6 @@ def Sign_out(request):
 @user_passes_test(is_admin, login_url="no-permission")
 def CreateRole (request):
   form = CreateGroupForm()
-  print("request coming")
   if request.method == 'POST':
       print("form is post")
       form = CreateGroupForm(data=request.POST)
@@ -65,6 +75,29 @@ def CreateRole (request):
           messages.error(request,"form is not valid")
   return render(request, 'createRole.html', {'form': form})
 
+@login_required(login_url="sign-in")
+@user_passes_test(is_admin, login_url="no-permission")
+def updateRolePermission(request,role_id):
+  role = get_object_or_404(Group,id=role_id)
+  form = CreateGroupForm(instance = role)
+  print("request coming")
+  if request.method == 'POST':
+      form = CreateGroupForm(data=request.POST, instance=role)
+      if form.is_valid():
+          form.save()
+          messages.success(request,"update role permissions successfully",)
+          return redirect('dashboard')
+      else:
+          messages.error(request,"form is not valid")
+  return render(request, 'createRole.html', {'form': form})
+
+@login_required(login_url="sign-in")
+@user_passes_test(is_admin, login_url="no-permission")
+def deleteRole(request,role_id):
+    role = get_object_or_404(Group,id=role_id)
+    role.delete()
+    messages.success(request,'category deleted successfully')
+    return redirect('dashboard')
 # change role
 @login_required(login_url="sign-in")
 @user_passes_test(is_admin, login_url="no-permission")
@@ -86,11 +119,15 @@ def ChangeRole(request,user_id):
     }
     return render(request,"globalForm.html",context)
 
+
+
 def activate_user(request, user_id, token):
     user = get_object_or_404(User, id=user_id)
 
     if default_token_generator.check_token(user, token):
         user.is_active = True
+        participant_group, created = Group.objects.get_or_create(name="Participant")
+        user.groups.add(participant_group)
         user.save()
         return redirect('sign-in')
     else:
