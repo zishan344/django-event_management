@@ -7,10 +7,21 @@ from django.db.models import Count,Q
 from django.utils.timezone import now
 from datetime import datetime
 from django.contrib.auth.models import Group,User
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,user_passes_test
+
+def is_admin(user):
+    return user.groups.filter(name="Admin").exists()
+    
+
+def is_organizer(user):
+    return user.groups.filter(name="Organizer").exists()
+
+def is_participant(user):
+    return user.groups.filter(name="Participant").exists()
+
 def showHome (request):
     return render(request,'home/home.html')
-
+@login_required(login_url="sign-in")
 def dashboard(request):
     today_date = now().date()
     events = Event.objects.select_related('category').all()
@@ -41,10 +52,15 @@ def dashboard(request):
     }
     return render(request,'dashboard/dashboard.html',context)
 
+
+@login_required(login_url="sign-in")
+@user_passes_test(is_admin, login_url="no-permission")
 def RoleDetails(request):
     groups = Group.objects.all()
     return render(request, "dashboard/roleDetails.html",{"groups":groups})
 
+@login_required(login_url="sign-in")
+@user_passes_test(is_admin, login_url="no-permission")
 def create_category(request):
     create_category_form = CategoryModelForm()
     if request.method == "POST":
@@ -61,7 +77,8 @@ def create_category(request):
     }
     return render(request, "form/form.html", context)
 
-
+@login_required(login_url="sign-in")
+@user_passes_test(is_admin, login_url="no-permission")
 def update_category(request, id):
     category = Category.objects.get(id=id)
     print("category field",category)
@@ -80,7 +97,7 @@ def update_category(request, id):
     }
     return render(request, "form/form.html", context)
 
-
+@user_passes_test(is_admin, login_url="no-permission")
 def delete_category(request,id):
     if request.method == "POST":
         category = Category.objects.get(id=id)
@@ -88,6 +105,7 @@ def delete_category(request,id):
         messages.success(request,'category deleted successfully')
         return redirect('dashboard')
 
+@login_required(login_url="sign-in")
 def create_event(request):
     create_event_form = EventModelForm()
     if request.method == "POST":
@@ -104,7 +122,7 @@ def create_event(request):
     }
     return render(request, "form/form.html", context)
 
-
+@login_required(login_url="sign-in")
 def event_update(request,id):
     event = Event.objects.get(id=id)
     create_event_form = EventModelForm(instance=event)
@@ -124,6 +142,7 @@ def event_update(request,id):
 
 
 # delete 
+@login_required(login_url="sign-in")
 def event_delete(request,id):
     if request.method == "POST":
         event = Event.objects.get(id=id)
@@ -170,7 +189,7 @@ def events(request):
     return render(request, 'AllEvents/events.html', context)
 
 
-# event details
+@login_required(login_url="sign-in")
 def event_details(request,id):
     event = Event.objects.all().get(id=id)
     participants=["rakib","rahim","karim","dummy bossa"]
@@ -180,7 +199,7 @@ def event_details(request,id):
     }
     return render(request, 'AllEvents/event_details.html',context)
 
-@login_required
+@login_required(login_url="sign-in")
 def Rsvp_event(request,event_id):
     event = get_object_or_404(Event, id=event_id)
     if request.user not in event.participant.all():

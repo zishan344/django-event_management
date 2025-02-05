@@ -6,36 +6,39 @@
   <h5 class="mb-4 text-3xl text-center font-bold tracking-tight text-gray-500 dark:text-white">
     <span class="text-red-400">Eventure</span> Dashboard
   </h5>
+  {% comment %} <p>{{user.groups.all.first.name}}</p> {% endcomment %}
 
-
-{% comment %} card counter {% endcomment %}
+{% if user.groups.all.first.name == "Admin" or user.groups.all.first.name == "Organizer" %}
+  {% comment %} organizer/admin {% endcomment %}
+  {% comment %} card counter {% endcomment %}
   {% include "dashboard/event_card_counter.html" with past_events=past_events upcoming_events=upcoming_events total_events=total_events total_participants=total_participants %}
 
-
+  {% comment %} organizer/admin {% endcomment %}
   {% comment %} todays event {% endcomment %}
   {% include "dashboard/todaysEvent.html" with todays_events=todays_events %}
 
-
-  {% comment %} Attend Event {% endcomment %}
-  {% include "dashboard/AttendEvent.html" with attendEvents=attendEvents %}
-
-
-  {% comment %} all user {% endcomment %}
-  {% include "dashboard/allUser.html" with users=users %}
-
-
-  {% comment %} create a role {% endcomment %}
-  {% include "dashboard/allRole.html" with groups=groups %}
-
-
-
+  {% comment %} organizer/admin {% endcomment %}
   {% comment %} all event {% endcomment %}
   {% include "dashboard/event_list.html" with events=events %}
 
-
+  {% comment %} organizer/admin {% endcomment %}
   {% comment %} All category {% endcomment %}
   {% include "dashboard/allCategory.html" with categorys=categorys %}
+{% endif %}
+{% if user.groups.all.first.name == "Admin" %}
+  {% comment %} admin {% endcomment %}
+  {% comment %} all user {% endcomment %}
+  {% include "dashboard/allUser.html" with users=users %}
 
+  {% comment %} admin {% endcomment %}
+  {% comment %} create a role {% endcomment %}
+  {% include "dashboard/allRole.html" with groups=groups %}
+{% endif %}
+{% if user.groups.all.first.name == "Participant" %}
+  {% comment %} access role participant {% endcomment %}
+  {% comment %} Attend Event {% endcomment %}
+  {% include "dashboard/AttendEvent.html" with attendEvents=attendEvents %}
+{% endif %}
 
 </div>
 

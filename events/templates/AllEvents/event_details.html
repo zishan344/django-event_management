@@ -9,7 +9,12 @@
     <div class="my-10">
       <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
         <div class="md:col-span-4">
-          <img class="object-cover w-full h-1/2" src="{% static "images/bg-1.jpg" %}" alt=""/>
+          {% if event.image %}
+        <img src="{{ event.image.url }}" class="object-cover w-full h-1/2 max-h-96">
+        {% else %}
+        <img class="object-cover w-full h-1/2" src="{% static "images/bg-1.jpg" %}" alt=""/>
+          />
+        {% endif %}
           <h2 class="text-2xl text-gray-900 font-sans mt-3 mb-5 font-semibold">{{event}}</h2>
           <div class="my-2 flex justify-start md:justify-between gap-2 flex-wrap items-center">
               
@@ -37,17 +42,20 @@
         </div>
         <div class="col-span-2 ">
           <div class="flex justify-end">
-          
-            {% if request.user in event.participant.all %}
-            <button class="text-slate-800 bg-red-200 dark:bg-red-300 cursor-not-allowed font-medium rounded-lg text-sm px-2 py-1 text-center" disabled>
-              ✅ RSVP'd
+          {% if request.user.groups.first.name == "Participant" %}
+          {% if request.user in event.participant.all %}
+            <button class="text-slate-800 bg-red-200 dark:bg-red-300 cursor-not-allowed font-medium rounded-lg text-sm px-2 py-1 text-center flex items-center gap-1" disabled>
+              <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 48 48">
+                <path fill="#4caf50" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#ccff90" d="M34.602,14.602L21,28.199l-5.602-5.598l-2.797,2.797L21,33.801l16.398-16.402L34.602,14.602z"></path>
+                </svg> RSVP'd
             </button>
           {% else %}
             <a href="{% url 'rsvp-event' event.id %}">
-              <button class="bg-red-500 hover:bg-red-600 px-2 py-1 rounded-md">
+              <button class="text-white bg-red-500 hover:bg-red-600 px-2 py-1 rounded-md">
                 RSVP
               </button>
             </a>
+          {% endif %}
           {% endif %}
           </div>
           <h3 class="text-lg font-medium text-gray-900 dark:text-white">Participant Name:</h3>

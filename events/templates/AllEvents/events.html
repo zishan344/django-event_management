@@ -108,7 +108,7 @@
         class="w-full grid grid-cols-1 md:grid-cols-6 items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
         >
         {% if event.image %}
-        <img src="{{ event.image.url }}" class=" md:col-span-2 object-cover w-full rounded-t-lg h-96 md:h-auto md: md:rounded-none md:rounded-s-lg">
+        <img src="{{ event.image.url }}" class=" md:col-span-2 object-cover w-full rounded-t-lg h-96 md:h-44 md: md:rounded-none md:rounded-s-lg">
         {% else %}
           <img
           class=" md:col-span-2 object-cover w-full rounded-t-lg h-96 md:h-auto md: md:rounded-none md:rounded-s-lg"
@@ -144,22 +144,26 @@
               <div class="place-items-start md:place-items-end">
                 <p class="text-sm "><a href="{% url "event-details" event.id %}" class =" bg-red-300 hover:bg-red-400 px-2 py-1 rounded-md "> Details </a></span></p>
               </div>
-              <div class="place-items-start md:place-items-end">
+              {% if request.user.groups.all.first.name == "Participant" %}
+                <div class="place-items-start md:place-items-end">
                 <p class="text-sm ">
                   {% comment %} rsvp button {% endcomment %}
-              {% if request.user in event.participant.all %}
-                <button class="text-slate-800 bg-red-200 dark:bg-red-300 cursor-not-allowed font-medium rounded-lg text-sm px-2 py-1 text-center" disabled>
-                  ✅ RSVP'd
-                </button>
-              {% else %}
-                <a href="{% url 'rsvp-event' event.id %}">
-                  <button class="bg-red-300 hover:bg-red-400 px-2 py-1 rounded-md">
-                    RSVP
-                  </button>
-                </a>
+                  {% if request.user in event.participant.all %}
+                    <button class="text-slate-800 bg-red-200 dark:bg-red-300 cursor-not-allowed font-medium rounded-lg text-sm px-2 py-1 text-center flex items-center gap-1" disabled>
+                      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 48 48">
+                      <path fill="#4caf50" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#ccff90" d="M34.602,14.602L21,28.199l-5.602-5.598l-2.797,2.797L21,33.801l16.398-16.402L34.602,14.602z"></path>
+                        </svg> RSVP'd
+                    </button>
+                  {% else %}
+                    <a href="{% url 'rsvp-event' event.id %}">
+                      <button class="bg-red-300 hover:bg-red-400 px-2 py-1 rounded-md">
+                      RSVP
+                      </button>
+                    </a>
+                  {% endif %}
+                </p>
+                </div>
               {% endif %}
-                </span></p>
-              </div>
             </div>
           </div>
           

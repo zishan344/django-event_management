@@ -1,11 +1,12 @@
 from django.shortcuts import redirect, render,get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, logout
-from .form import RegisterForm, LoginForm, CreateGroupForm, AssignRoleForm
+from events.views import is_admin
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
+from .form import RegisterForm, LoginForm, CreateGroupForm, AssignRoleForm
 from django.http import HttpResponseBadRequest
-
+from django.contrib.auth.decorators import login_required,user_passes_test
 # Create your views here.
 
 def Sign_up(request):
@@ -48,6 +49,8 @@ def Sign_out(request):
     logout(request)
     return redirect('sign-in')
 
+@login_required(login_url="sign-in")
+@user_passes_test(is_admin, login_url="no-permission")
 def CreateRole (request):
   form = CreateGroupForm()
   print("request coming")
@@ -63,6 +66,8 @@ def CreateRole (request):
   return render(request, 'createRole.html', {'form': form})
 
 # change role
+@login_required(login_url="sign-in")
+@user_passes_test(is_admin, login_url="no-permission")
 def ChangeRole(request,user_id):
     user = User.objects.get(id = user_id)
     form = AssignRoleForm()

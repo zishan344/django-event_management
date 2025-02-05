@@ -20,11 +20,13 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 from django.conf import settings
 from django.conf.urls.static import static
 from events.views import showHome
+from core.views import NoPermissions
 
 # from debug_toolbar.toolbar import debug_toolbar_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',showHome,name="home"),
+    path('no-permission/',NoPermissions,name="no-permission"),
     path('',include('events.urls')),
     path('users/',include('users.urls')),
 ] + debug_toolbar_urls()
