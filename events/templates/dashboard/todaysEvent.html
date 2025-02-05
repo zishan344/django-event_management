@@ -39,7 +39,7 @@
               <p class="text-sm text-center flex flex-col"><span>Time</span> <span class=" font-mono font-semibold ">{{event.time}}</span></p>
             </div>
             <div>
-              <p class="text-sm text-center flex flex-col"><span>Total Participant</span> <span class="font-mono font-semibold">{{event.total_participants}}</span></p>
+              <p class="text-sm text-center flex flex-col"><span>Total Participant</span> <span class="font-mono font-semibold">{{event.participant.count}}</span></p>
             </div>
             <div class="place-items-start md:place-items-end">
               <p class="text-sm "><a href="{% url "event-details" event.id %}" class =" bg-red-300 hover:bg-red-400 px-2 py-1 rounded-md "> Event details</a></p>
