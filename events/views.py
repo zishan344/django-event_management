@@ -8,6 +8,9 @@ from .models import Event,Category
 from django.contrib.auth.decorators import login_required,user_passes_test,permission_required
 from .form import CategoryModelForm, EventModelForm
 from users.views import is_admin,is_organizer,is_participant
+from django.views.generic import CreateView
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 def showHome (request):
     return render(request,'home/home.html')
@@ -63,8 +66,8 @@ def RoleDetails(request):
     groups = Group.objects.all()
     return render(request, "dashboard/roleDetails.html",{"groups":groups})
 
-@login_required(login_url="sign-in")
-@permission_required("events.add_category",raise_exception=True,login_url='no-permission')
+# @login_required(login_url="sign-in")
+# @permission_required("events.add_category",raise_exception=True,login_url='no-permission')
 def create_category(request):
     create_category_form = CategoryModelForm()
     if request.method == "POST":
@@ -81,6 +84,23 @@ def create_category(request):
     }
     return render(request, "form/form.html", context)
 
+
+class CreateCategory(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
+    permission_required ="events.add_category"
+    login_url ='sign-in'
+    model = Category
+    form_class = CategoryModelForm
+    template_name = "form/form.html"
+    success_url=reverse_lazy('create-category')
+    def get_context_data(self, **kwargs):
+        kwargs['submit']="submit_category"
+        kwargs['form_title']="Create Category"
+        kwargs['submitTitle']="Create"
+        return super().get_context_data(**kwargs)
+    def form_valid(self, form):
+        response= super().form_valid(form)
+        messages.success(self.request,"Event Category created successfully")
+        return response
 
 @login_required(login_url="sign-in")
 @permission_required("events.change_category",raise_exception=True,login_url='no-permission')

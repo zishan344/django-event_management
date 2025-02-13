@@ -7,7 +7,9 @@ from .form import RegisterForm, LoginForm, CreateGroupForm, AssignRoleForm
 from django.http import HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required,user_passes_test
 # Create your views here.
-
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 def is_admin(user):
     return user.groups.filter(name="Admin").exists()
     
@@ -74,6 +76,23 @@ def CreateRole (request):
       else:
           messages.error(request,"form is not valid")
   return render(request, 'createRole.html', {'form': form})
+
+class CreateRoles(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
+    print("request coming")
+    permission_required="Authentication_and_Authorization.add_group"
+    login_url='sign-in'
+    model = Group
+    form_class = CreateGroupForm
+    template_name = 'createRole.html'
+    success_url = reverse_lazy('create-role')
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request,"Created new role successfully")
+        return response
+
+    
+
+
 
 @login_required(login_url="sign-in")
 @user_passes_test(is_admin, login_url="no-permission")

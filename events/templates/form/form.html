@@ -11,8 +11,12 @@
 
   <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
+      {% if create_form %}
       {{ create_form.as_p }}
-      <button class="my-2 bg-red-300 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-400" type="submit" name="{{submit}}">Submit Event</button>
+      {% else %}
+      {{ form.as_p }}
+      {% endif %}
+      <button class="my-2 bg-red-300 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-400" type="submit" name="{{submit}}">{% if submitTitle %}{{submitTitle}}{% else %}Submit{% endif %}</button>
   </form>
   </div>
 {% endblock  %}
