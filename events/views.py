@@ -8,7 +8,7 @@ from .models import Event,Category
 from django.contrib.auth.decorators import login_required,user_passes_test,permission_required
 from .form import CategoryModelForm, EventModelForm
 from users.views import is_admin,is_organizer,is_participant
-from django.views.generic import CreateView
+from django.views.generic import CreateView,UpdateView,DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
@@ -66,24 +66,6 @@ def RoleDetails(request):
     groups = Group.objects.all()
     return render(request, "dashboard/roleDetails.html",{"groups":groups})
 
-# @login_required(login_url="sign-in")
-# @permission_required("events.add_category",raise_exception=True,login_url='no-permission')
-def create_category(request):
-    create_category_form = CategoryModelForm()
-    if request.method == "POST":
-        if "submit_category" in request.POST:
-            create_category_form = CategoryModelForm(request.POST)
-            if create_category_form.is_valid():
-                create_category_form.save()
-                messages.success(request,"Event Category created successfully")
-                return redirect("create-category")  
-    context = {
-        "create_form": create_category_form,
-        "form_title":"Create Category",
-        "submit":"submit_category"
-    }
-    return render(request, "form/form.html", context)
-
 
 class CreateCategory(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
     permission_required ="events.add_category"
@@ -131,43 +113,42 @@ def delete_category(request,id):
         messages.success(request,'category deleted successfully')
         return redirect('dashboard')
 
-@login_required(login_url="sign-in")
-@permission_required("events.add_event",raise_exception=True,login_url='no-permission')
-def create_event(request):
-    create_event_form = EventModelForm()
-    if request.method == "POST":
-        if "submit_event" in request.POST:
-            create_event_form = EventModelForm(request.POST,request.FILES)
-            if create_event_form.is_valid():
-                create_event_form.save()
-                messages.success(request,"event created successfully")
-                return redirect("create-event")  
-    context = {
-        "create_form": create_event_form,
-        "form_title":"Create Event",
-        "submit":"submit_event"
-    }
-    return render(request, "form/form.html", context)
+class CreateEvent(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
+    permission_required ='events.add_event'
+    login_url = 'sign-in'
+    model = Event
+    form_class= EventModelForm
+    template_name = 'form/form.html'
+    success_url= reverse_lazy('create-event')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form_title"] = 'Create Event'
+        context["sbmit"] = 'submit_event'
+        return context
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request,"event created successfully")
+        return response
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        messages.error(self.request,"Your form have some problem. This is invalid request. Please try again")
+        return response
 
-@login_required(login_url="sign-in")
-@permission_required("events.change_event",raise_exception=True,login_url='no-permission')
-def event_update(request,id):
-    event = Event.objects.get(id=id)
-    create_event_form = EventModelForm(instance=event)
-    print(create_event_form.initial)
-    if request.method == 'POST':
-        create_event_form = EventModelForm(request.POST,instance=event)
-        if create_event_form.is_valid():
-            event = create_event_form.save()
-            messages.success(request, "Event updated successfully")
-            return redirect('event-update',id)
-    context={
-        "create_form": create_event_form,
-        "form_title":"Update Event",
-        "submit":"update_event"
-    }
-    return render(request,"form/form.html",context)
-
+class EventUpdate(LoginRequiredMixin,PermissionRequiredMixin,UpdateView):
+    print("event updating start")
+    permission_required ='events.change_event'
+    login_url = 'sign-in'
+    model = Event
+    pk_url_kwarg = 'id'
+    form_class= EventModelForm
+    template_name = 'form/form.html'
+    success_url= reverse_lazy('dashboard')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form_title"] = 'Update Event'
+        context["sbmit"] = 'update_event'
+        context["submitTitle"] = 'update'
+        return context
 
 # delete 
 @login_required(login_url="sign-in")
@@ -218,15 +199,11 @@ def events(request):
     return render(request, 'AllEvents/events.html', context)
 
 
-@login_required(login_url="sign-in")
-@permission_required("events.view_event",raise_exception=True,login_url='no-permission')
-def event_details(request,id):
-    event = Event.objects.all().get(id=id)
-    context={
-        'event':event,
-    }
-    return render(request, 'AllEvents/event_details.html',context)
-
+class EventDetails(LoginRequiredMixin,DetailView):
+    login_url = 'sign-in'
+    model = Event
+    template_name ='AllEvents/event_details.html'
+    pk_url_kwarg = 'id'	
 
 @login_required(login_url="sign-in")
 @user_passes_test(is_participant,login_url='no-permission')

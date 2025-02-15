@@ -62,21 +62,6 @@ def Sign_out(request):
     logout(request)
     return redirect('sign-in')
 
-@login_required(login_url="sign-in")
-@user_passes_test(is_admin, login_url="no-permission")
-def CreateRole (request):
-  form = CreateGroupForm()
-  if request.method == 'POST':
-      print("form is post")
-      form = CreateGroupForm(data=request.POST)
-      if form.is_valid():
-          form.save()
-          messages.success(request,"Created new role successfully",)
-          return redirect('create-role')
-      else:
-          messages.error(request,"form is not valid")
-  return render(request, 'createRole.html', {'form': form})
-
 class CreateRoles(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
     print("request coming")
     permission_required="Authentication_and_Authorization.add_group"
@@ -90,7 +75,6 @@ class CreateRoles(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
         messages.success(self.request,"Created new role successfully")
         return response
 
-    
 
 
 
