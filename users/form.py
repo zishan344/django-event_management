@@ -1,14 +1,18 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
-from django.contrib.auth.models import User,Permission,Group
+from django.contrib.auth.models import Permission,Group
 from events.form import StyledFormMixin
+from .models import CustomUser
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class RegisterForm(StyledFormMixin,UserCreationForm):
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['username', 'first_name', 'last_name',
-                'password1', 'password2', 'email']
+                'password1', 'password2', 'email','phoneNumber','profile_image']
 
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)

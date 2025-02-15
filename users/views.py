@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render,get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, logout
-from django.contrib.auth.models import User,Group
+from django.contrib.auth.models import Group
 from django.contrib.auth.tokens import default_token_generator
 from .form import RegisterForm, LoginForm, CreateGroupForm, AssignRoleForm
 from django.http import HttpResponseBadRequest
@@ -10,6 +10,11 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+
 def is_admin(user):
     return user.groups.filter(name="Admin").exists()
     
@@ -25,7 +30,7 @@ def is_participant(user):
 def Sign_up(request):
   form = RegisterForm()
   if request.method == 'POST':
-    form = RegisterForm(request.POST)
+    form = RegisterForm(request.POST,request.FILES)
     if form.is_valid():
       user = form.save(commit=False)
       user.set_password(form.cleaned_data['password1'])
@@ -74,8 +79,6 @@ class CreateRoles(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
         response = super().form_valid(form)
         messages.success(self.request,"Created new role successfully")
         return response
-
-
 
 
 @login_required(login_url="sign-in")

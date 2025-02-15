@@ -1,7 +1,10 @@
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.core.mail import send_mail
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 from .models import Event
 
 @receiver(m2m_changed, sender=Event.participant.through)

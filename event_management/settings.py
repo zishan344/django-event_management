@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-%%$%87i_2cknxdhk*b3t1164c@6i0r)v(e*85^4!ij7d7s)8wu
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+AUTH_USER_MODEL='users.CustomUser'
 CSRF_TRUSTED_ORIGINS=["https://*.onrender.com","http://127.0.0.1:8000"]
 
 # Application definition
@@ -81,12 +82,23 @@ WSGI_APPLICATION = 'event_management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
+""" DATABASES = {
     'default': dj_database_url.config(
         # Replace this value with your local database's connection string.
         default='postgresql://event_management_1xmv_user:ZHiAttN6gZynSuFvI1K4uicmecZY9z67@dpg-cucaotjqf0us73c8eq7g-a.oregon-postgres.render.com/event_management_1xmv',
         conn_max_age=600
     )
+} """
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'event_management',
+        'USER': 'postgres',
+        'PASSWORD': '1234',
+        'HOST': 'localhost',
+        'PORT': '5432'
+    }
 }
 
 # Password validation
@@ -144,7 +156,8 @@ EMAIL_HOST_PASSWORD = 'lcmh qfid cymj nite'
 PASSWORD_RESET_TIMEOUT = 14400
 
 
-FRONTEND_URL ="https://django-event-management-9iep.onrender.com"
+# FRONTEND_URL ="https://django-event-management-9iep.onrender.com"
+FRONTEND_URL ="http://127.0.0.1:8000"
 
 
 MEDIA_URL = '/media/'

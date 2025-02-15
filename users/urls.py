@@ -1,5 +1,5 @@
 from django.urls import path
-from users.views import Sign_up, Sign_in, Sign_out,activate_user,CreateRole,ChangeRole,updateRolePermission,deleteRole,CreateRoles
+from users.views import Sign_up, Sign_in, Sign_out,activate_user,ChangeRole,updateRolePermission,deleteRole,CreateRoles
 
 urlpatterns = [
     path('sign-up/',Sign_up, name="sign-up"),

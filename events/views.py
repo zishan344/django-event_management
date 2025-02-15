@@ -1,6 +1,6 @@
 from datetime import datetime
 from django.shortcuts import render, redirect,get_object_or_404
-from django.contrib.auth.models import Group,User
+from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.utils.timezone import now
 from django.db.models import Q
@@ -11,6 +11,10 @@ from users.views import is_admin,is_organizer,is_participant
 from django.views.generic import CreateView,UpdateView,DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 def showHome (request):
     return render(request,'home/home.html')
@@ -65,7 +69,6 @@ def dashboard(request):
 def RoleDetails(request):
     groups = Group.objects.all()
     return render(request, "dashboard/roleDetails.html",{"groups":groups})
-
 
 class CreateCategory(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
     permission_required ="events.add_category"
