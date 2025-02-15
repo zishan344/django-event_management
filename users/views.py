@@ -8,7 +8,7 @@ from django.http import HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required,user_passes_test
 # Create your views here.
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView,TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth import get_user_model
 
@@ -79,6 +79,10 @@ class CreateRoles(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
         response = super().form_valid(form)
         messages.success(self.request,"Created new role successfully")
         return response
+
+class UserProfile(LoginRequiredMixin,TemplateView):
+    template_name = 'accounts/profile.html'
+
 
 
 @login_required(login_url="sign-in")
