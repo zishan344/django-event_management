@@ -1,5 +1,5 @@
 from django.urls import path
-from events.views import events,event_delete,update_category,delete_category, dashboard,RoleDetails,Rsvp_event,Delete_participant,CreateCategory,CreateEvent,EventUpdate,EventDetails,EventListView
+from events.views import event_delete,update_category,delete_category, dashboard,RoleDetails,Rsvp_event,Delete_participant,CreateCategory,CreateEvent,EventUpdate,EventDetails,EventListView
 
 urlpatterns = [
 

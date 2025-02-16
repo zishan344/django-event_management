@@ -163,43 +163,6 @@ def event_delete(request,id):
         messages.success(request,'Event deleted successfully')
         return redirect('dashboard')
 
-
-def events(request):
-    totalEvent = Event.objects.all()
-    # query parameters
-    name_query = request.GET.get('name', None)
-    location_query = request.GET.get('location', None)
-    start_date_query = request.GET.get('start_date', None)
-    end_date_query = request.GET.get('end_date', None)
-    
-    category_query = request.GET.get('category_query', None)
-    print(f"category querysss {category_query}")
-    # filter
-    if name_query:
-        totalEvent = totalEvent.filter(name__icontains=name_query)
-    
-    if location_query:
-        totalEvent=totalEvent.filter(location__icontains=location_query)
-    
-    if start_date_query and end_date_query:
-        try:
-            start_date =datetime.strptime(start_date_query,"%Y-%m-%d")
-            end_date =datetime.strptime(end_date_query,"%Y-%m-%d")
-            totalEvent = totalEvent.filter(Q(date__gte=start_date) if start_date else Q() & Q(date__lte=end_date) if end_date else Q())
-        except ValueError:
-            pass
-    
-    if category_query:
-        if category_query =="all":
-            totalEvent = Event.objects.all()
-        else:
-            totalEvent = totalEvent.filter(category__id__in=category_query.split(','))
-    context= {
-        'totalEvent': totalEvent,
-        'categorys':Category.objects.all(),
-    }
-    return render(request, 'AllEvents/events.html', context)
-
 class EventListView(ListView):
     model = Event
     template_name = "AllEvents/events.html" 
