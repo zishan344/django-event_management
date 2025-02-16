@@ -1,192 +1,112 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}all events{% endblock  %}
+{% block title %}All Events{% endblock %}
 {% block content %}
 
 <div class="my-20">
   <div class="text-center">
-    <h5 class="mb-4 text-3xl font-bold tracking-tight text-gray-500 dark:text-white">
-      <span class="text-red-400">Eventure</span> Events
+    <h5 class="mb-4 text-3xl font-bold tracking-tight text-gray-700 dark:text-white">
+      <span class="text-red-500">Eventure</span> Events
     </h5>
-    <form method="get" action="{% url "events" %}"> <div class="flex justify-center flex-wrap gap-y-3 md:gap-0 items-center space-x-4">
-      <input
-        name="name"
-        value="{{request.GET.name}}"
-        class="px-4 py-2 border-2 border-gray-300 focus:outline-none rounded-lg shadow-sm focus:border-red-500 focus:ring focus:ring-red-300"
-        placeholder="Search by event name"
-        type="text"
-        aria-label="Search by event name"
-      />
-      <input
-        name="location"
-        value="{{request.GET.location}}"
-        class="px-4 py-2 border-2 border-gray-300 focus:outline-none rounded-lg shadow-sm focus:border-red-500 focus:ring focus:ring-red-300"
-        placeholder="Search by location"
-        type="text"
-        aria-label="Search by location"
-      />
-      <button
-        type="submit"
-        class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-      >
-        Search
-      </button>
-    </div>
-  </form>
-  
+    <form method="get" action="{% url "events" %}">
+      <div class="flex justify-center flex-wrap gap-4">
+        <input name="name" value="{{request.GET.name}}" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:border-red-500 focus:ring-2 focus:ring-red-300 transition" placeholder="Search by event name" type="text">
+        <input name="location" value="{{request.GET.location}}" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:border-red-500 focus:ring-2 focus:ring-red-300 transition" placeholder="Search by location" type="text">
+        <button type="submit" class="text-white bg-red-600 hover:bg-red-700 transition px-4 py-2 rounded-lg">Search</button>
+      </div>
+    </form>
   </div>
-  <div class="grid grid-cols-1 md:grid-cols-7 mt-20 gap-2">
-    <div class=" col-span-2">
+
+  <div class="grid grid-cols-1 md:grid-cols-7 mt-16 gap-6">
+    <!-- Search by Date -->
+    <div class="col-span-2">
       <div>
-        <h2 class="text-xl text-gray-500 mb-4 text-center">search by date</h2>
+        <h2 class="text-xl text-gray-600 mb-4 text-center">Search by Date</h2>
         <form method="get" action="{% url "events" %}">
-        <div id="date-range-picker" class="flex items-center justify-center md:gap-y-2 gap-2 md:justify-start flex-wrap lg:flex-nowrap">
-          <div class="relative">
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                </svg>
-            </div>
-            <input required id="datepicker-range-start" name="start_date" value="{{request.GET.start_date}}" type="date" 
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-red-500 focus:border-red-500 block w-32 ps-8 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" 
-              placeholder="Start date">
+          <div class="flex flex-wrap items-center justify-center gap-2">
+            <input required name="start_date" value="{{request.GET.start_date}}" type="date" class="bg-gray-100 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 px-3 py-1 transition">
+            <span class="text-gray-500">to</span>
+            <input required name="end_date" value="{{request.GET.end_date}}" type="date" class="bg-gray-100 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 px-3 py-1 transition">
+            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-md transition">Search</button>
           </div>
-          <span class="mx-1 text-gray-500">to</span>
-          <div class="relative">
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                </svg>
-            </div>
-            <input required id="datepicker-range-end" name="end_date" value="{{request.GET.end_date}}" type="date" 
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-red-500 focus:border-red-500 block w-32 ps-8 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" 
-              placeholder="End date">
-        </div>
-          <button type="submit" 
-            class="mx-1 bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-1 rounded-md focus:ring-2 focus:ring-red-400 focus:outline-none">
-          Search
-          </button>
         </form>
       </div>
-
-</div>
-
     </div>
-  <div class="col-span-5">
-      
-      {% comment %} event category {% endcomment %}
-      <div class="flex justify-center flex-col">
-        
-<h3 class="mb-5 text-center text-lg font-medium text-gray-900 dark:text-white">Choose Category:</h3>
-<ul class="flex justify-center w-full gap-2 flex-wrap">
-    <li>
-      <a href="{% url 'events' %}?category_query=all" class="inline-flex items-center px-2 text-gray-500 bg-white border-2 border-gray-200 rounded-md cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 hover:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-        <div class="block">
-            <div class="w-full font-mono font-semibold">All</div>
-        </div>
-    </a>
-        
-    </li>
-    {% for category in categorys %}
-    <li>
-      <a href="{% url 'events' %}?category_query={{category.id}}" class="inline-flex items-center px-2 text-gray-500 bg-white border-2 border-gray-200 rounded-md cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 hover:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-        <div class="block">
-            <div class="w-full font-mono font-semibold">{{category.name}}</div>
-        </div>
-    </a>
-  </li>
-    {% endfor %}
-</ul>
 
-      </div>
+    <!-- Event Listings -->
+    <div class="col-span-5">
+      <h3 class="mb-5 text-center text-lg font-medium text-gray-800 dark:text-white">Choose Category:</h3>
+      <ul class="flex justify-center gap-3 flex-wrap">
+        <li>
+          <a href="{% url 'events' %}?category_query=all" class="px-3 py-1 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition">All</a>
+        </li>
+        {% for category in categorys %}
+        <li>
+          <a href="{% url 'events' %}?category_query={{category.id}}" class="px-3 py-1 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition">
+            {{category.name}}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
 
-      {% comment %} showing event card {% endcomment %}
-    {% for event in totalEvent %}
-    
-      <div class="my-2 rounded-md">
-        <article
-        class="w-full grid grid-cols-1 md:grid-cols-6 items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
-        >
-        {% if event.image %}
-        <img src="{{ event.image.url }}" class=" md:col-span-2 object-cover w-full rounded-t-lg h-96 md:h-44 md: md:rounded-none md:rounded-s-lg">
-        {% else %}
-          <img
-          class=" md:col-span-2 object-cover w-full rounded-t-lg h-96 md:h-auto md: md:rounded-none md:rounded-s-lg"
-          src="{% static 'images/bg-2.jpg' %}"
-          alt="Event banner"
-          />
-        {% endif %}
-          <div class=" md:col-span-4 flex flex-col justify-between p-4 leading-normal">
-            <div class="flex justify-between gap-4 flex-wrap items-center">
-              <p class="text-sm "><span>Category :</span> <span class="bg-red-300 px-1 rounded-md">{{event.category}}</span></p>
-              <p class="text-sm "><span>Location :</span> <span class="bg-red-300 px-1 rounded-md">{{event.location}}</span></p>
-            </div>
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"> {{event}}
-            </h5>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              {% if event.description|length > 50 %}
-                {{ event.description|slice:":50" }}...
+      <!-- Event Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+        {% for event in totalEvent %}
+        <div class="relative group transform transition duration-300 hover:scale-[1.02] hover:shadow-lg">
+          <article class="overflow-hidden rounded-lg shadow-md bg-white border border-gray-200 transition hover:border-gray-400">
+            <div class="relative w-full h-56">
+              {% if event.image %}
+              <img src="{{ event.image.url }}" class="absolute inset-0 w-full h-full object-cover rounded-t-lg brightness-90 group-hover:brightness-100 transition">
               {% else %}
-                {{ event.description }}
-              {% endif %}
-            </p>
-            <div class="my-2 flex justify-start gap-4 flex-wrap items-center">
-              
-              <div>
-                <p class="text-sm text-center flex flex-col"><span>Date</span> <span class=" font-mono font-semibold ">{{event.date}}</span></p>
-              </div>
-              <div>
-                <p class="text-sm text-center flex flex-col"><span>Time</span> <span class=" font-mono font-semibold ">{{event.time}}</span></p>
-              </div>
-              <div>
-                <p class="text-sm text-center flex flex-col"><span>Total Participant</span> <span class="font-mono font-semibold">{{event.participant.count}}</span></p>
-              </div>
-              <div class="place-items-start md:place-items-end">
-                <p class="text-sm "><a href="{% url "event-details" event.id %}" class =" bg-red-300 hover:bg-red-400 px-2 py-1 rounded-md "> Details </a></span></p>
-              </div>
-              {% if request.user.groups.all.first.name == "Participant" %}
-                <div class="place-items-start md:place-items-end">
-                <p class="text-sm ">
-                  {% comment %} rsvp button {% endcomment %}
-                  {% if request.user in event.participant.all %}
-                    <button class="text-slate-800 bg-red-200 dark:bg-red-300 cursor-not-allowed font-medium rounded-lg text-sm px-2 py-1 text-center flex items-center gap-1" disabled>
-                      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 48 48">
-                      <path fill="#4caf50" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#ccff90" d="M34.602,14.602L21,28.199l-5.602-5.598l-2.797,2.797L21,33.801l16.398-16.402L34.602,14.602z"></path>
-                        </svg> RSVP'd
-                    </button>
-                  {% else %}
-                    <a href="{% url 'rsvp-event' event.id %}">
-                      <button class="bg-red-300 hover:bg-red-400 px-2 py-1 rounded-md">
-                      RSVP
-                      </button>
-                    </a>
-                  {% endif %}
-                </p>
-                </div>
+              <img src="{% static 'images/bg-2.jpg' %}" class="absolute inset-0 w-full h-full object-cover rounded-t-lg brightness-90 group-hover:brightness-100 transition">
               {% endif %}
             </div>
-          </div>
-          
-      </article>
-      </div>
 
-    {% endfor %}
-  </div>
-    
+            <div class="p-5">
+              <div class="flex justify-between items-center mb-3">
+                <span class="px-3 py-1 text-xs font-semibold text-white bg-red-500 rounded-md">{{ event.category }}</span>
+                <span class="px-3 py-1 text-xs font-semibold text-white bg-blue-500 rounded-md">{{ event.location }}</span>
+              </div>
+
+              <h5 class="text-xl font-bold text-gray-800 mb-2">{{ event.name }}</h5>
+
+              <p class="text-gray-600 text-sm mb-4">
+                {% if event.description|length > 80 %}
+                {{ event.description|slice:":80" }}...
+                {% else %}
+                {{ event.description }}
+                {% endif %}
+              </p>
+
+              <div class="flex justify-between items-center text-gray-500 text-sm">
+                <div class="flex items-center gap-2">
+                  <span class="font-medium">📅 {{ event.date }}</span>
+                  <span class="font-medium">⏰ {{ event.time }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-medium">👥 {{ event.participant.count }} Participants</span>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="mt-4 flex justify-between items-center">
+                <a href="{% url 'event-details' event.id %}" class="px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-md transition">Details</a>
+
+                {% if request.user.groups.all.first.name == "Participant" %}
+                {% if request.user in event.participant.all %}
+                <button class="text-gray-500 bg-gray-300 px-4 py-2 rounded-md cursor-not-allowed">✅ RSVP'd</button>
+                {% else %}
+                <a href="{% url 'rsvp-event' event.id %}" class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded-md transition">RSVP</a>
+                {% endif %}
+                {% endif %}
+              </div>
+            </div>
+          </article>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
   </div>
 </div>
 
-
-{% comment %} <div class="my-20 flex justify-between flex-wrap gap-2">
- <a href="{% url "event-details" event.id %}" class =" bg-orange-100 p-2 rounded-md "> Event details{{ event.id }}</a>
-  <form action="{% url "event-update" event.id %}" method="POST">
-                {% csrf_token %}
-                  <button type="submit" class =" bg-blue-400 p-2 rounded-md ">Edit</button>
-                </form>
-          
-                <form action="{% url "event-delete" event.id %}" method='POST'>
-                  {% csrf_token %}
-                  <button type='submit' class="bg-red-400 py-1">Delete</button>
-              </form>
-</div> {% endcomment %}
-{% endblock  %}
+{% endblock %}
