@@ -3,12 +3,12 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import Group
 from django.contrib.auth.tokens import default_token_generator
-from .form import RegisterForm, LoginForm, CreateGroupForm, AssignRoleForm
+from .form import RegisterForm, LoginForm, CreateGroupForm, AssignRoleForm,EditProfileForm
 from django.http import HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required,user_passes_test
 # Create your views here.
 from django.urls import reverse_lazy
-from django.views.generic import CreateView,TemplateView
+from django.views.generic import CreateView,TemplateView,UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth import get_user_model
 
@@ -83,7 +83,20 @@ class CreateRoles(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
 class UserProfile(LoginRequiredMixin,TemplateView):
     template_name = 'accounts/profile.html'
 
-
+class EditProfile(LoginRequiredMixin,UpdateView):
+    login_url='sign-in'
+    model = User
+    form_class = EditProfileForm	
+    template_name="form/form.html"
+    context_object_name = 'form'
+    success_url = reverse_lazy('profile')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form_title"] = "Update Profile"
+        context["submitTitle"] ="Update"
+        return context
+    def get_object(self):
+        return self.request.user
 
 @login_required(login_url="sign-in")
 @user_passes_test(is_admin, login_url="no-permission")

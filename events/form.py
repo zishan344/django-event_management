@@ -2,6 +2,9 @@ from django import forms
 from .models import Category, Event
 class StyledFormMixin:
     """Mixin to apply style to form fields."""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.apply_styled_widgets()
     default_classes = (
         "px-2 border-2 border-red-300 w-full focus:outline-none rounded-lg shadow-sm "
         "focus:border-red-500 focus:ring focus:ring-red-300 form-control"

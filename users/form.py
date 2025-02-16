@@ -21,6 +21,13 @@ class RegisterForm(StyledFormMixin,UserCreationForm):
         for fieldname in ['username', 'password1', 'password2']:
             self.fields[fieldname].help_text = None
 
+
+
+class EditProfileForm(StyledFormMixin, forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ["username",'email', 'first_name', 'last_name', 'phoneNumber', 'profile_image']
+
 class LoginForm(StyledFormMixin,AuthenticationForm):
   def __init__(self, *arg, **kwargs):
         super().__init__(*arg, **kwargs)
