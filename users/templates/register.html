@@ -3,7 +3,7 @@
 {% block content %}
 <div class="my-20 w-2/4 mx-auto shadow-md p-4 rounded-md">
   <h2 class="mt-10 mb-5 font-semibold text-center font-mono text-lg md:text-xl lg:text-2xl text-slate-800">Sign Up Your New Account</h2>
-  <form method='POST'>
+  <form method='POST' enctype="multipart/form-data">
     {% csrf_token %}
     {{ form }}
     <div class="text-sm my-1 font-medium text-slate-500 dark:text-gray-300">

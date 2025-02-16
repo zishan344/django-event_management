@@ -8,7 +8,7 @@ from .models import Event,Category
 from django.contrib.auth.decorators import login_required,user_passes_test,permission_required
 from .form import CategoryModelForm, EventModelForm
 from users.views import is_admin,is_organizer,is_participant
-from django.views.generic import CreateView,UpdateView,DetailView
+from django.views.generic import CreateView,UpdateView,DetailView,ListView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
@@ -166,7 +166,6 @@ def event_delete(request,id):
 
 def events(request):
     totalEvent = Event.objects.all()
-    
     # query parameters
     name_query = request.GET.get('name', None)
     location_query = request.GET.get('location', None)
@@ -201,7 +200,44 @@ def events(request):
     }
     return render(request, 'AllEvents/events.html', context)
 
+class EventListView(ListView):
+    model = Event
+    template_name = "AllEvents/events.html" 
+    context_object_name = "totalEvent"
 
+    def get_queryset(self):
+        queryset = Event.objects.all()
+        name_query = self.request.GET.get("name", None)
+        location_query = self.request.GET.get("location", None)
+        start_date_query = self.request.GET.get("start_date", None)
+        end_date_query = self.request.GET.get("end_date", None)
+        category_query = self.request.GET.get("category_query", None)
+
+        if name_query:
+            queryset = queryset.filter(name__icontains=name_query)
+
+        if location_query:
+            queryset = queryset.filter(location__icontains=location_query)
+
+        if start_date_query and end_date_query:
+            try:
+                start_date = datetime.strptime(start_date_query, "%Y-%m-%d")
+                end_date = datetime.strptime(end_date_query, "%Y-%m-%d")
+                queryset = queryset.filter(Q(date__gte=start_date) & Q(date__lte=end_date))
+            except ValueError:
+                pass
+
+        if category_query:
+            if category_query.lower() == "all":
+                queryset = Event.objects.all()
+            else:
+                queryset = queryset.filter(category__id__in=category_query.split(","))
+
+        return queryset
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categorys"] = Category.objects.all()
+        return context
 class EventDetails(LoginRequiredMixin,DetailView):
     login_url = 'sign-in'
     model = Event

@@ -28,7 +28,11 @@
           <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"> {{event}}
           </h5>
           <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            {{event.description}}
+            {% if event.description|length > 50 %}
+                {{ event.description|slice:":50" }}...
+              {% else %}
+                {{ event.description }}
+              {% endif %}
           </p>
           <div class="my-2 flex justify-start gap-4 flex-wrap items-center">
             

@@ -82,24 +82,24 @@ WSGI_APPLICATION = 'event_management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-""" DATABASES = {
+DATABASES = {
     'default': dj_database_url.config(
         # Replace this value with your local database's connection string.
-        default='postgresql://event_management_1xmv_user:ZHiAttN6gZynSuFvI1K4uicmecZY9z67@dpg-cucaotjqf0us73c8eq7g-a.oregon-postgres.render.com/event_management_1xmv',
+        default='postgresql://event_management_2_user:ITsMNGCcUwNje0WlkTahxTzlNHTPkWbN@dpg-cuoq8j52ng1s73ebmvhg-a.oregon-postgres.render.com/event_management_2',
         conn_max_age=600
     )
-} """
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'event_management',
-        'USER': 'postgres',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
-        'PORT': '5432'
-    }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'event_management',
+#         'USER': 'postgres',
+#         'PASSWORD': '1234',
+#         'HOST': 'localhost',
+#         'PORT': '5432'
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -156,8 +156,8 @@ EMAIL_HOST_PASSWORD = 'lcmh qfid cymj nite'
 PASSWORD_RESET_TIMEOUT = 14400
 
 
-# FRONTEND_URL ="https://django-event-management-9iep.onrender.com"
-FRONTEND_URL ="http://127.0.0.1:8000"
+FRONTEND_URL ="https://django-event-management-9iep.onrender.com"
+# FRONTEND_URL ="http://127.0.0.1:8000"
 
 
 MEDIA_URL = '/media/'
