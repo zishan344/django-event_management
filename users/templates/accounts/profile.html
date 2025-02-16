@@ -3,11 +3,11 @@
 {% load custom_filters %}
 {% block title %}Profile{% endblock title %}
 {% block content %}
-<div class="my-28 min-h-screen">
+<div class="my-28 min-h-screen bg-gradient-to-r from-primary to-focus-ring">
   <!-- Main Content -->
-  <div class="w-full md:w-2/3 bg-white shadow-md rounded-lg mx-auto overflow-hidden">
+  <div class="w-full md:w-2/3 bg-white shadow-lg rounded-lg mx-auto overflow-hidden">
     <!-- Cover Photo -->
-    <div class="relative w-full h-48 bg-gray-300">
+    <div class="relative w-full h-48 bg-gray-200">
       <img
         src="{% static 'images/bg-1.jpg' %}"
         alt="Cover Photo"
@@ -17,37 +17,37 @@
 
     <!-- Profile Header -->
     <div class="relative flex items-center justify-between px-6 py-4">
-      <div class="flex items-center -mt-12">
+      <div class="flex items-center -mt-16">
         <!-- Clickable Profile Picture -->
         <img
           src="{{ user.profile_image.url }}"
           alt="User Avatar"
-          class="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md cursor-pointer"
+          class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-md cursor-pointer hover:border-primary transition-all"
           onclick="openModal()"
         />
-        <div class="ml-4">
-          <h2 class="text-2xl font-semibold text-gray-800">{{ user.get_full_name }}</h2>
-          <p class="text-gray-600">Software Developer</p>
+        <div class="ml-6">
+          <h2 class="text-3xl font-semibold text-gray-800">{{ user.get_full_name }}</h2>
+          <p class="text-gray-600 text-lg">Software Developer | Tech Enthusiast</p>
         </div>
       </div>
       <a
         href="{% url 'edit-profile' %}"
-        class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg"
+        class="bg-primary hover:bg-focus-ring text-white font-medium px-6 py-2 rounded-lg shadow-md transition-colors"
       >
         Edit Profile
       </a>
     </div>
 
     <!-- Personal & Account Information -->
-    <div class="px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-6">
       <div>
-        <h3 class="text-lg font-semibold text-gray-700 mb-2">Personal Information</h3>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">Personal Information</h3>
         <p class="text-gray-600"><span class="font-medium">Email:</span> {{ user.email }}</p>
         <p class="text-gray-600"><span class="font-medium">Username:</span> {{ user.username }}</p>
         <p class="text-gray-600"><span class="font-medium">Location:</span> New York, USA</p>
       </div>
       <div>
-        <h3 class="text-lg font-semibold text-gray-700 mb-2">Account Information</h3>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">Account Information</h3>
         <p class="text-gray-600"><span class="font-medium">Member Since:</span> {{ user.member_since|humanized_date }}</p>
         <p class="text-gray-600"><span class="font-medium">Last Login:</span> {{ user.last_login|humanized_date }}</p>
       </div>
@@ -55,17 +55,17 @@
 
     <!-- Security Section -->
     <div class="px-6 py-4">
-      <h3 class="text-lg font-semibold text-gray-700 mb-2">Security</h3>
-      <div class="flex gap-3 flex-col md:flex-row">
+      <h3 class="text-xl font-semibold text-gray-800 mb-4">Security</h3>
+      <div class="flex gap-4 flex-wrap">
         <a
           href="{% url 'change-password' %}"
-          class="bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded-lg inline-block"
+          class="bg-error hover:bg-red-700 text-white font-medium px-6 py-2 rounded-lg shadow-md transition-colors"
         >
           Change Password
         </a>
         <a
           href="#"
-          class="bg-gray-600 hover:bg-gray-700 text-white font-medium px-4 py-2 rounded-lg inline-block"
+          class="bg-gray-600 hover:bg-gray-700 text-white font-medium px-6 py-2 rounded-lg shadow-md transition-colors"
         >
           Enable Two-Factor Authentication (Coming Soon)
         </a>
@@ -92,10 +92,9 @@
   function openModal() {
     document.getElementById("profileModal").classList.remove("hidden");
   }
-  
+
   function closeModal() {
     document.getElementById("profileModal").classList.add("hidden");
   }
 </script>
-
 {% endblock content %}

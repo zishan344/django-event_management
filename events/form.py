@@ -1,18 +1,26 @@
 from django import forms
 from .models import Category, Event
+from django import forms
+
 class StyledFormMixin:
     """Mixin to apply style to form fields."""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.apply_styled_widgets()
+
     default_classes = (
-        "px-2 border-2 border-red-300 w-full focus:outline-none rounded-lg shadow-sm "
-        "focus:border-red-500 focus:ring focus:ring-red-300 form-control"
+        "px-2 border-2 border-primary w-full focus:outline-none rounded-lg shadow-sm "
+        "focus:border-primary focus:ring focus:ring-focus-ring form-control focus:outline-none"
     )
-    checkbox_classes = "form-checkbox text-blue-500 focus:ring focus:ring-blue-300 form-control"
+    checkbox_classes = "form-checkbox text-blue-500 focus:ring focus:ring-red-300 form-control"
     select_classes = (
         "border-2 border-gray-300 w-full rounded-lg shadow-sm "
-        "focus:border-blue-500 focus:ring focus:ring-blue-300"
+        "focus:border-primary focus:ring focus:ring-focus-ring"
+    )
+    file_input_classes = (
+        "block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer "
+        "bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 "
+        "dark:placeholder-gray-400"
     )
 
     def apply_styled_widgets(self):
@@ -27,7 +35,7 @@ class StyledFormMixin:
                     'class': self.default_classes,
                     'placeholder': f"Enter {field.label.lower()}",
                 })
-                field.widget.attrs['value'] = self.initial.get(field_name, '') 
+                field.widget.attrs['value'] = self.initial.get(field_name, '')
             elif isinstance(field.widget, forms.SelectDateWidget):
                 field.widget.attrs.update({
                     "class": self.select_classes,
@@ -38,14 +46,17 @@ class StyledFormMixin:
                 })
             elif isinstance(field.widget, forms.FileInput):
                 field.widget.attrs.update({
-                    "class": "block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    "class": self.file_input_classes,
                 })
             elif isinstance(field.widget, forms.Select):
                 field.widget.attrs.update({
                     "class": self.default_classes,
                 })
-                field.widget.attrs['value'] = self.initial.get(field_name, '')  
+                field.widget.attrs['value'] = self.initial.get(field_name, '')
 
+            # Optionally, add a placeholder for Select widgets if needed
+            if isinstance(field.widget, forms.Select) and not field.widget.attrs.get('placeholder'):
+                field.widget.attrs['placeholder'] = f"Select {field.label.lower()}"
 
 class CategoryModelForm(StyledFormMixin, forms.ModelForm):
     class Meta:

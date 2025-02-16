@@ -1,20 +1,21 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}role details{% endblock title %}
+{% block title %}Role Details{% endblock title %}
 {% block content %}
-<div class="my-10 mx-auto max-w-4xl">
-  <h5 class="mb-4 text-xl font-bold tracking-tight text-gray-700 dark:text-white text-center">
+<div class="my-10 mx-auto max-w-6xl">
+  <h5 class="mb-6 text-4xl font-extrabold text-gray-900 dark:text-white text-center">
     All Roles
   </h5>
-  <div class="relative overflow-x-auto shadow-lg rounded-lg">
-    <table class="w-full text-sm text-left text-gray-700 dark:text-gray-400 border border-gray-200 dark:border-gray-700">
-      <caption class="p-5 text-lg font-semibold text-center text-gray-900 bg-white dark:text-white dark:bg-gray-800 border-b dark:border-gray-700">
-        <a href="{% url 'create-role' %}" 
-            class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-          Create Role
-        </a>
-      </caption>
-      <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-300">
+
+  <div class="relative overflow-x-auto bg-white dark:bg-gray-900 shadow-lg rounded-xl border border-gray-200 dark:border-gray-700">
+    <div class="p-5 bg-gradient-to-r from-red-600 to-red-700 text-center rounded-t-xl text-white">
+      <a href="{% url 'create-role' %}"
+        class="text-white bg-transparent hover:bg-white hover:text-red-700 font-medium rounded-lg text-sm px-4 py-2 transition duration-300 ease-in-out">
+        Create Role
+      </a>
+    </div>
+    <table class="min-w-full text-sm text-left text-gray-700 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-300">
         <tr>
           <th scope="col" class="px-6 py-3 border-b border-gray-200 dark:border-gray-700">Name</th>
           <th scope="col" class="px-6 py-3 border-b border-gray-200 dark:border-gray-700">Description</th>
@@ -22,14 +23,16 @@
       </thead>
       <tbody>
         {% for group in groups %}
-        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300">
           <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             {{ group.name }}
           </th>
           <td class="px-6 py-4">
             <ul>
               {% for permission in group.permissions.all %}
-              <li class="px-1 text-gray-600 dark:text-gray-300">{{ permission.codename }}</li>
+              <li class="px-2 py-1 text-sm text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 rounded-md mb-2 transition-all duration-300 hover:bg-gray-200 dark:hover:bg-gray-600">
+                {{ permission.codename }}
+              </li>
               {% empty %}
               <span class="text-gray-400 italic">No permissions assigned</span>
               {% endfor %}
