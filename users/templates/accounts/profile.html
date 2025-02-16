@@ -1,17 +1,15 @@
-
 {% extends "base.html" %}
 {% load static %}
-{% block title %}profile{% endblock title %}
+{% load custom_filters %}
+{% block title %}Profile{% endblock title %}
 {% block content %}
-<div class="my-20 min-h-screen">
+<div class="my-28 min-h-screen">
   <!-- Main Content -->
-  <h1 class="text-3xl font-bold text-gray-800 mb-8">User Profile</h1>
-
   <div class="w-full md:w-2/3 bg-white shadow-md rounded-lg mx-auto overflow-hidden">
     <!-- Cover Photo -->
     <div class="relative w-full h-48 bg-gray-300">
       <img
-        src="{% static "images/bg-1.jpg" %}"
+        src="{% static 'images/bg-1.jpg' %}"
         alt="Cover Photo"
         class="w-full h-full object-cover"
       />
@@ -20,10 +18,12 @@
     <!-- Profile Header -->
     <div class="relative flex items-center justify-between px-6 py-4">
       <div class="flex items-center -mt-12">
+        <!-- Clickable Profile Picture -->
         <img
           src="{{ user.profile_image.url }}"
           alt="User Avatar"
-          class="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md"
+          class="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md cursor-pointer"
+          onclick="openModal()"
         />
         <div class="ml-4">
           <h2 class="text-2xl font-semibold text-gray-800">{{ user.get_full_name }}</h2>
@@ -31,7 +31,7 @@
         </div>
       </div>
       <a
-        href="{% url "edit-profile" %}"
+        href="{% url 'edit-profile' %}"
         class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg"
       >
         Edit Profile
@@ -48,17 +48,17 @@
       </div>
       <div>
         <h3 class="text-lg font-semibold text-gray-700 mb-2">Account Information</h3>
-        <p class="text-gray-600"><span class="font-medium">Member Since:</span> {{ user.member_since }}</p>
-        <p class="text-gray-600"><span class="font-medium">Last Login:</span> {{ user.last_login }}</p>
+        <p class="text-gray-600"><span class="font-medium">Member Since:</span> {{ user.member_since|humanized_date }}</p>
+        <p class="text-gray-600"><span class="font-medium">Last Login:</span> {{ user.last_login|humanized_date }}</p>
       </div>
     </div>
 
     <!-- Security Section -->
     <div class="px-6 py-4">
       <h3 class="text-lg font-semibold text-gray-700 mb-2">Security</h3>
-      <div class="flex flex-col gap-3">
+      <div class="flex gap-3 flex-col md:flex-row">
         <a
-          href="{% url "change-password" %}"
+          href="{% url 'change-password' %}"
           class="bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded-lg inline-block"
         >
           Change Password
@@ -74,6 +74,28 @@
   </div>
 </div>
 
-  {% endblock content %}
+<!-- Profile Image Modal -->
+<div id="profileModal" class="fixed inset-0 bg-black bg-opacity-70 hidden flex items-center justify-center">
+  <div class="relative bg-white rounded-lg p-4 max-w-lg shadow-lg">
+    <button
+      onclick="closeModal()"
+      class="absolute top-2 right-2 bg-gray-300 hover:bg-gray-400 text-black rounded-full w-8 h-8 flex items-center justify-center"
+    >
+      ✖
+    </button>
+    <img src="{{ user.profile_image.url }}" alt="Full Size Profile" class="w-full h-auto rounded-lg"/>
+  </div>
+</div>
 
+<!-- JavaScript for Modal -->
+<script>
+  function openModal() {
+    document.getElementById("profileModal").classList.remove("hidden");
+  }
+  
+  function closeModal() {
+    document.getElementById("profileModal").classList.add("hidden");
+  }
+</script>
 
+{% endblock content %}

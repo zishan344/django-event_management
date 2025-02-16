@@ -6,11 +6,11 @@ from django.contrib.auth.tokens import default_token_generator
 from django.http import HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.views.generic import CreateView,TemplateView,UpdateView
-from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
+from django.contrib.auth.views import PasswordChangeView, PasswordResetView,PasswordResetConfirmView
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from .form import RegisterForm, LoginForm, CreateGroupForm, AssignRoleForm,EditProfileForm,ChangePasswordForm,CustomPasswordResetForm
+from .form import RegisterForm, LoginForm, CreateGroupForm, AssignRoleForm,EditProfileForm,ChangePasswordForm,CustomPasswordResetForm,CustomPasswordResetConfirmForm
 
 User = get_user_model()
 
@@ -109,7 +109,37 @@ class ChangePassword(LoginRequiredMixin,PasswordChangeView):
         context["submitTitle"] ="Change"
         return context
 
+class CustomResetPassword(PasswordResetView):
+    form_class = CustomPasswordResetForm
+    template_name= 'form/form.html'
+    html_email_template_name='accounts/reset_email.html'
+    success_url = reverse_lazy('sign-in')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form_title"] = "Password Reset"
+        context["submitTitle"] ="submit"
+        context['protocol'] = 'https' if self.request.is_secure else 'http'
+        context['domain'] = self.request.get_host()
+        return context
+    
+    def form_valid(self,form):
+        messages.success(self.request, 'A Reset email set. Please check your email inbox or spam folder')
+        return super().form_valid(form)
 
+class CustomPassWordResetConfirm(PasswordResetConfirmView):
+    form_class = CustomPasswordResetConfirmForm
+    template_name = 'form/form.html'
+    success_url= reverse_lazy('sign-in')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form_title"] = "Password Reset"
+        context["submitTitle"] ="Change"
+        return context
+    def form_valid(self,form):
+        messages.success(
+        self.request, 'Password reset successfully'
+        )
+        return super().form_valid(form)
 
 @login_required(login_url="sign-in")
 @user_passes_test(is_admin, login_url="no-permission")

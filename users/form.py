@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm,AuthenticationForm, PasswordChangeForm, PasswordResetForm
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm, PasswordChangeForm,PasswordResetForm, SetPasswordForm
 from django.contrib.auth.models import Permission,Group
 from events.form import StyledFormMixin
 from .models import CustomUser
@@ -33,6 +33,8 @@ class ChangePasswordForm(StyledFormMixin,PasswordChangeForm):
 
 class CustomPasswordResetForm(StyledFormMixin,PasswordResetForm):
     "it's handle custom password reset form"
+class CustomPasswordResetConfirmForm(StyledFormMixin,SetPasswordForm):
+    "it's handle custom password reset Confirm form"
 
 class LoginForm(StyledFormMixin,AuthenticationForm):
   def __init__(self, *arg, **kwargs):
