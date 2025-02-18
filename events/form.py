@@ -25,39 +25,37 @@ class StyledFormMixin:
 
     def apply_styled_widgets(self):
         for field_name, field in self.fields.items():
-            if isinstance(field.widget, (forms.TextInput, forms.PasswordInput, forms.EmailInput)):
+            label = field.label if field.label is not None else ''
+            if isinstance(field.widget, (forms.TextInput, forms.PasswordInput,  forms.EmailInput)):
                 field.widget.attrs.update({
-                    'class': self.default_classes,
-                    'placeholder': f"Enter {field.label.lower()}",
+                'class': self.default_classes,
+                'placeholder': f"Enter {label.lower()}" if label else '',
                 })
             elif isinstance(field.widget, forms.Textarea):
                 field.widget.attrs.update({
-                    'class': self.default_classes,
-                    'placeholder': f"Enter {field.label.lower()}",
+                'class': self.default_classes,
+                'placeholder': f"Enter {label.lower()}" if label else '',
                 })
                 field.widget.attrs['value'] = self.initial.get(field_name, '')
             elif isinstance(field.widget, forms.SelectDateWidget):
                 field.widget.attrs.update({
-                    "class": self.select_classes,
+                "class": self.select_classes,
                 })
             elif isinstance(field.widget, forms.CheckboxSelectMultiple):
                 field.widget.attrs.update({
-                    "class": "space-y-2" + self.checkbox_classes,
+                "class": "space-y-2" + self.checkbox_classes,
                 })
             elif isinstance(field.widget, forms.FileInput):
                 field.widget.attrs.update({
-                    "class": self.file_input_classes,
+                "class": self.file_input_classes,
                 })
             elif isinstance(field.widget, forms.Select):
                 field.widget.attrs.update({
-                    "class": self.default_classes,
+                "class": self.default_classes,
                 })
                 field.widget.attrs['value'] = self.initial.get(field_name, '')
-
-            # Optionally, add a placeholder for Select widgets if needed
             if isinstance(field.widget, forms.Select) and not field.widget.attrs.get('placeholder'):
-                field.widget.attrs['placeholder'] = f"Select {field.label.lower()}"
-
+                field.widget.attrs['placeholder'] = f"Select {label.lower()}" if label else ''
 class CategoryModelForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Category
