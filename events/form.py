@@ -1,21 +1,21 @@
 from django import forms
 from .models import Category, Event
-from django import forms
 
 class StyledFormMixin:
     """Mixin to apply style to form fields."""
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.apply_styled_widgets()
 
     default_classes = (
         "px-2 border-2 border-primary w-full focus:outline-none rounded-lg shadow-sm "
-        "focus:border-primary focus:ring focus:ring-focus-ring form-control focus:outline-none"
+        "focus:border-primary focus:ring-primary form-control"
     )
-    checkbox_classes = "form-checkbox text-blue-500 focus:ring focus:ring-red-300 form-control"
+    checkbox_classes = "form-checkbox text-blue-500 focus:ring-primary focus:ring-red-300 form-control"
     select_classes = (
         "border-2 border-gray-300 w-full rounded-lg shadow-sm "
-        "focus:border-primary focus:ring focus:ring-focus-ring"
+        "focus:border-primary focus:ring-primary"
     )
     file_input_classes = (
         "block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer "
@@ -26,36 +26,37 @@ class StyledFormMixin:
     def apply_styled_widgets(self):
         for field_name, field in self.fields.items():
             label = field.label if field.label is not None else ''
-            if isinstance(field.widget, (forms.TextInput, forms.PasswordInput,  forms.EmailInput)):
+            
+            if isinstance(field.widget, (forms.TextInput, forms.PasswordInput, forms.EmailInput, forms.Textarea)):
                 field.widget.attrs.update({
-                'class': self.default_classes,
-                'placeholder': f"Enter {label.lower()}" if label else '',
+                    'class': self.default_classes,
+                    'placeholder': f"Enter {label.lower()}" if label else '',
                 })
-            elif isinstance(field.widget, forms.Textarea):
-                field.widget.attrs.update({
-                'class': self.default_classes,
-                'placeholder': f"Enter {label.lower()}" if label else '',
-                })
-                field.widget.attrs['value'] = self.initial.get(field_name, '')
+                field.initial = self.initial.get(field_name, '')
+            
             elif isinstance(field.widget, forms.SelectDateWidget):
                 field.widget.attrs.update({
-                "class": self.select_classes,
+                    "class": self.select_classes,
                 })
+            
             elif isinstance(field.widget, forms.CheckboxSelectMultiple):
                 field.widget.attrs.update({
-                "class": "space-y-2" + self.checkbox_classes,
+                    "class": "space-y-2 " + self.checkbox_classes,
                 })
+            
             elif isinstance(field.widget, forms.FileInput):
                 field.widget.attrs.update({
-                "class": self.file_input_classes,
+                    "class": self.file_input_classes,
                 })
+            
             elif isinstance(field.widget, forms.Select):
                 field.widget.attrs.update({
-                "class": self.default_classes,
+                    "class": self.default_classes,
                 })
-                field.widget.attrs['value'] = self.initial.get(field_name, '')
-            if isinstance(field.widget, forms.Select) and not field.widget.attrs.get('placeholder'):
-                field.widget.attrs['placeholder'] = f"Select {label.lower()}" if label else ''
+                field.initial = self.initial.get(field_name, '')
+
+                if not field.widget.attrs.get('placeholder'):
+                    field.widget.attrs['placeholder'] = f"Select {label.lower()}" if label else ''
 class CategoryModelForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Category

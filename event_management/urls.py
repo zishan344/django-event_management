@@ -20,7 +20,7 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 from django.conf import settings
 from django.conf.urls.static import static
 from events.views import showHome
-from core.views import NoPermissions
+from core.views import NoPermissions,EventureContact
 
 # from debug_toolbar.toolbar import debug_toolbar_urls
 urlpatterns = [
@@ -28,6 +28,7 @@ urlpatterns = [
     path('',showHome,name="home"),
     path('no-permission/',NoPermissions,name="no-permission"),
     path('',include('events.urls')),
+    path('contact/',EventureContact.as_view(),name="contact"),
     path('users/',include('users.urls')),
 ] + debug_toolbar_urls()
 

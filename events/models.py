@@ -6,7 +6,7 @@ User = get_user_model()
 # category models
 class Category(models.Model):
     """ class representing a Category """
-    name = models.CharField(max_length=250)
+    name = models.CharField(max_length=250,unique=True)
     description = models.TextField()
     def __str__(self):
         return self.name
