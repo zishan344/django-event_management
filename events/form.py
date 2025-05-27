@@ -103,21 +103,3 @@ class EventModelForm(StyledFormMixin, forms.ModelForm):
                 field.widget.attrs['value'] = self.initial[field_name]
         if 'category' in self.fields and hasattr(self.instance, 'category'):
             self.fields['category'].initial = self.instance.category
-
-
-
-""" class ParticipantModelForm(StyledFormMixin, forms.ModelForm):
-    class Meta:
-        model = Participant
-        fields = ['name', 'email', 'attend_to']
-        labels = {
-            'name': "Enter your Name"
-        }
-        widgets = {
-            'attend_to': forms.CheckboxSelectMultiple
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.apply_styled_widgets()
-"""
