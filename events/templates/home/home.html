@@ -4,21 +4,84 @@
 Home
 {% endblock title %}
 
-{% block content %}
+{% block extra_js %}
+<script src="{% static 'js/testimonials.js' %}"></script>
+{% endblock %}
 
-<div class="mt-20">
-  {% comment %} !hero section {% endcomment %}
+{% block content %}
+<!--  Hero Section  -->
+<div class="relative bg-gradient-to-br from-red-700 via-red-600 to-red-800 min-h-screen">
   {% include "home/hero.html" %}
-  {% comment %} welcome section  {% endcomment %}
-  <div class="my-20">
-    {% include "home/welcomeSection.html" %}
-  </div>
-  <div class="my-20">
-    {% include "home/service.html" %}
-  </div>
-  
 </div>
 
+<!-- Welcome Section -->
+<div class="bg-white/80 backdrop-blur-sm py-20">
+  <div class="max-w-7xl mx-auto px-4">
+    {% include "home/welcomeSection.html" %}
+  </div>
+</div>
+
+<!-- Partners Section -->
+<div class="py-16 bg-gradient-to-br from-gray-50 to-white">
+  <div class="max-w-7xl mx-auto px-4">
+    {% include "home/partners.html" %}
+  </div>
+</div>
+<!-- Services Section -->
+<div class="bg-gradient-to-br from-gray-50 to-red-50/30 py-20">
+  <div class="max-w-7xl mx-auto px-4">
+    {% include "home/service.html" %}
+  </div>
+</div>
+
+
+<!-- Gallery Section -->
+<div class="py-16 bg-gradient-to-br from-gray-50 to-white">
+  <div class="max-w-7xl mx-auto px-4">
+    {% include "home/gallery.html" %}
+  </div>
+</div>
+
+<!-- Testimonials Section -->
+<div class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4">
+    {% include "home/testimonials.html" %}
+  </div>
+</div>
+
+<!-- FAQ Section with Alpine.js -->
+<div class="py-20 bg-gradient-to-br from-white to-gray-50">
+  <div class="max-w-7xl mx-auto px-4">
+    {% include "home/faq.html" %}
+  </div>
+</div>
+
+<!-- Newsletter Section -->
+<div class="py-16">
+  <div class="max-w-5xl mx-auto px-4">
+    {% include "home/newsletter.html" %}
+  </div>
+</div>
+<!-- Call to Action Section -->
+<div class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-16 relative">
+  <!-- Red pattern overlay -->
+  <div class="absolute inset-0 bg-red-600 opacity-5 mix-blend-overlay"></div>
+  
+  <div class="max-w-4xl mx-auto text-center px-4 relative z-10">
+    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+      Ready to Create Your <span class="text-red-400">Perfect Event</span>?
+    </h2>
+    <p class="text-xl text-gray-300 mb-8">
+      Let our expert team help you plan an unforgettable experience
+    </p>    <div class="flex flex-col sm:flex-row gap-4 justify-center cta-buttons">
+      <a href="{% url "sign-up" %}" class="btn-red-glow bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cta-button">
+        Get Started
+      </a>
+      <button class="border-2 border-white text-white hover:bg-white hover:text-red-600 font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:shadow-lg cta-button">
+        View Portfolio
+      </button>
+    </div>
+  </div>
 </div>
 
 {% endblock content %}

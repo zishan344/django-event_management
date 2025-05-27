@@ -7,3 +7,6 @@ def NoPermissions(request):
 
 class EventureContact(TemplateView):
   template_name ='contact.html'
+  
+class EventureAboutus(TemplateView):
+  template_name ='aboutus.html'

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About Us{% endblock title %}
+
+{% block content %}
+<section class="mt-20 bg-gray-50 py-16">
+  <div class="max-w-7xl mx-auto px-4 text-center">
+    <h1 class="text-4xl font-bold text-gray-900 mb-6">About Us</h1>
+    <p class="text-lg text-gray-700 leading-relaxed mb-8">
+      Welcome to Eventure! We are passionate about creating unforgettable events that bring people together. Our team of experts specializes in planning, organizing, and executing events of all sizes, ensuring every detail is perfect.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold text-red-600 mb-4">Our Mission</h2>
+        <p class="text-gray-600">
+          To deliver exceptional event experiences that exceed expectations and create lasting memories.
+        </p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold text-red-600 mb-4">Our Vision</h2>
+        <p class="text-gray-600">
+          To be the leading event management company known for innovation, creativity, and excellence.
+        </p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold text-red-600 mb-4">Our Values</h2>
+        <p class="text-gray-600">
+          Integrity, passion, and commitment to delivering the best for our clients.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
+

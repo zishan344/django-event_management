@@ -1,0 +1,67 @@
+{% load static %}
+<!-- Newsletter Section with Clean Modern Design -->
+<div class="relative overflow-hidden my-16 shadow-xl rounded-2xl">
+  <!-- Simple Background -->
+  <div class="bg-red-600 rounded-2xl">
+    <!-- Simple Pattern Overlay -->
+    <div class="absolute inset-0 opacity-20">
+      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+        <defs>
+          <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="10" cy="10" r="1.5" fill="white" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dots)" />
+      </svg>
+    </div>
+    
+    <!-- Content -->
+    <div class="relative z-10 p-8 md:p-12 text-center">
+      <!-- Icon -->
+      <div class="w-16 h-16 mx-auto mb-6 bg-red-700 rounded-full flex items-center justify-center shadow-lg">
+        <svg class="w-8 h-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      </div>
+      
+      <!-- Text -->
+      <h3 class="text-3xl md:text-4xl font-bold text-white mb-4">Stay Updated with Eventure</h3>
+      
+      <p class="text-white text-lg mb-8 max-w-2xl mx-auto">
+        Subscribe to our newsletter for exclusive event planning tips, industry trends, and special offers
+      </p>
+      
+      <!-- Form -->
+      <form class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+        <div class="relative flex-grow">
+          <input 
+            type="email" 
+            placeholder="Enter your email address" 
+            class="w-full pl-12 pr-6 py-4 rounded-xl bg-white shadow-lg text-gray-800"
+            required
+          />
+          <div class="absolute left-4 top-1/2 -translate-y-1/2 text-red-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+            </svg>
+          </div>
+        </div>
+        
+        <button 
+          type="submit" 
+          class="bg-white text-red-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg flex items-center justify-center"
+        >
+          <span class="mr-2">Subscribe</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </form>
+      
+      <p class="text-white text-sm mt-6">
+        We respect your privacy. Unsubscribe at any time.
+      </p>
+    </div>
+  </div>
+</div>

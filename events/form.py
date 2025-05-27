@@ -26,32 +26,33 @@ class StyledFormMixin:
     def apply_styled_widgets(self):
         for field_name, field in self.fields.items():
             label = field.label if field.label is not None else ''
-            
+            # Add margin for spacing
+            field.widget.attrs['class'] = (field.widget.attrs.get('class', '') + ' mb-3').strip()
             if isinstance(field.widget, (forms.TextInput, forms.PasswordInput, forms.EmailInput, forms.Textarea)):
                 field.widget.attrs.update({
-                    'class': self.default_classes,
+                    'class': self.default_classes + ' mb-3',
                     'placeholder': f"Enter {label.lower()}" if label else '',
                 })
                 field.initial = self.initial.get(field_name, '')
             
             elif isinstance(field.widget, forms.SelectDateWidget):
                 field.widget.attrs.update({
-                    "class": self.select_classes,
+                    "class": self.select_classes + ' mb-3',
                 })
             
             elif isinstance(field.widget, forms.CheckboxSelectMultiple):
                 field.widget.attrs.update({
-                    "class": "space-y-2 " + self.checkbox_classes,
+                    "class": "space-y-2 " + self.checkbox_classes + ' mb-3',
                 })
             
             elif isinstance(field.widget, forms.FileInput):
                 field.widget.attrs.update({
-                    "class": self.file_input_classes,
+                    "class": self.file_input_classes + ' mb-3',
                 })
             
             elif isinstance(field.widget, forms.Select):
                 field.widget.attrs.update({
-                    "class": self.default_classes,
+                    "class": self.default_classes + ' mb-3',
                 })
                 field.initial = self.initial.get(field_name, '')
 
