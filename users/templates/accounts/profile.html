@@ -3,7 +3,7 @@
 {% load custom_filters %}
 {% block title %}Profile{% endblock title %}
 {% block content %}
-<div class="my-28 min-h-screen bg-gradient-to-r from-primary to-focus-ring">
+<div class="my-28 min-h-screen  from-primary to-focus-ring">
   <!-- Main Content -->
   <div class="w-full md:w-2/3 bg-white shadow-lg rounded-lg mx-auto overflow-hidden">
     <!-- Cover Photo -->
@@ -83,7 +83,7 @@
     >
       ✖
     </button>
-    <img src="{{ user.profile_image.url }}" alt="Full Size Profile" class="w-full h-auto rounded-lg"/>
+    <img src="{{ user.profile_image.url }}" alt="Full Size Profile" class="w-full h-80 rounded-lg"/>
   </div>
 </div>
 
