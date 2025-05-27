@@ -11,13 +11,17 @@
 
 /* Add subtle gradient background on hover */
 .testimonial-card:before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(254, 226, 226, 0.3) 0%, rgba(254, 202, 202, 0.2) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(254, 226, 226, 0.3) 0%,
+    rgba(254, 202, 202, 0.2) 100%
+  );
   opacity: 0;
   transition: opacity 0.5s ease;
   z-index: -1;
@@ -43,7 +47,7 @@
 }
 
 .testimonial-card blockquote:before {
-  content: """;
+  content: "";
   font-size: 3rem;
   font-family: Georgia, serif;
   color: rgba(239, 68, 68, 0.2);
@@ -69,11 +73,21 @@
 }
 
 @keyframes star-wave {
-  0% { transform: translateY(0) scale(1); }
-  25% { transform: translateY(-3px) scale(1.1); }
-  50% { transform: translateY(0) scale(1); }
-  75% { transform: translateY(3px) scale(0.9); }
-  100% { transform: translateY(0) scale(1); }
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  25% {
+    transform: translateY(-3px) scale(1.1);
+  }
+  50% {
+    transform: translateY(0) scale(1);
+  }
+  75% {
+    transform: translateY(3px) scale(0.9);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* Accessibility enhancements */
@@ -99,11 +113,21 @@
   animation: star-wave 1.5s ease-in-out infinite;
 }
 
-.star-rating:hover svg:nth-child(1) { animation-delay: 0s; }
-.star-rating:hover svg:nth-child(2) { animation-delay: 0.1s; }
-.star-rating:hover svg:nth-child(3) { animation-delay: 0.2s; }
-.star-rating:hover svg:nth-child(4) { animation-delay: 0.3s; }
-.star-rating:hover svg:nth-child(5) { animation-delay: 0.4s; }
+.star-rating:hover svg:nth-child(1) {
+  animation-delay: 0s;
+}
+.star-rating:hover svg:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.star-rating:hover svg:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.star-rating:hover svg:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.star-rating:hover svg:nth-child(5) {
+  animation-delay: 0.4s;
+}
 
 /* Swiper Carousel Testimonials */
 .testimonials-swiper {
@@ -220,15 +244,26 @@
   animation: star-pulse 2s ease-in-out infinite;
 }
 
-.swiper-slide-active .star-rating svg:nth-child(1) { animation-delay: 0s; }
-.swiper-slide-active .star-rating svg:nth-child(2) { animation-delay: 0.2s; }
-.swiper-slide-active .star-rating svg:nth-child(3) { animation-delay: 0.4s; }
-.swiper-slide-active .star-rating svg:nth-child(4) { animation-delay: 0.6s; }
-.swiper-slide-active .star-rating svg:nth-child(5) { animation-delay: 0.8s; }
+.swiper-slide-active .star-rating svg:nth-child(1) {
+  animation-delay: 0s;
+}
+.swiper-slide-active .star-rating svg:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.swiper-slide-active .star-rating svg:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.swiper-slide-active .star-rating svg:nth-child(4) {
+  animation-delay: 0.6s;
+}
+.swiper-slide-active .star-rating svg:nth-child(5) {
+  animation-delay: 0.8s;
+}
 
 /* Enhanced animations for star ratings */
 @keyframes star-twinkle {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     filter: drop-shadow(0 0 2px rgba(251, 191, 36, 0.5));
   }
@@ -238,11 +273,21 @@
   }
 }
 
-.swiper-slide-active .star-rating svg:nth-child(1) { animation: star-twinkle 3s ease-in-out infinite 0.1s; }
-.swiper-slide-active .star-rating svg:nth-child(2) { animation: star-twinkle 3s ease-in-out infinite 0.7s; }
-.swiper-slide-active .star-rating svg:nth-child(3) { animation: star-twinkle 3s ease-in-out infinite 1.3s; }
-.swiper-slide-active .star-rating svg:nth-child(4) { animation: star-twinkle 3s ease-in-out infinite 1.9s; }
-.swiper-slide-active .star-rating svg:nth-child(5) { animation: star-twinkle 3s ease-in-out infinite 2.5s; }
+.swiper-slide-active .star-rating svg:nth-child(1) {
+  animation: star-twinkle 3s ease-in-out infinite 0.1s;
+}
+.swiper-slide-active .star-rating svg:nth-child(2) {
+  animation: star-twinkle 3s ease-in-out infinite 0.7s;
+}
+.swiper-slide-active .star-rating svg:nth-child(3) {
+  animation: star-twinkle 3s ease-in-out infinite 1.3s;
+}
+.swiper-slide-active .star-rating svg:nth-child(4) {
+  animation: star-twinkle 3s ease-in-out infinite 1.9s;
+}
+.swiper-slide-active .star-rating svg:nth-child(5) {
+  animation: star-twinkle 3s ease-in-out infinite 2.5s;
+}
 
 /* Gradient text effect */
 .gradient-text-red {
@@ -321,22 +366,22 @@
   .testimonials-swiper {
     padding-bottom: 40px;
   }
-  
+
   .swiper-button-next,
   .swiper-button-prev {
     width: 36px;
     height: 36px;
   }
-  
+
   .swiper-button-next:after,
   .swiper-button-prev:after {
     font-size: 16px;
   }
-  
+
   .testimonial-card {
     padding: 1.5rem;
   }
-  
+
   .testimonial-card blockquote {
     font-size: 0.95rem;
   }
