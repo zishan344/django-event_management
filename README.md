@@ -1,7 +1,7 @@
 # Eventure - Modern Event Management System
 
 <div align="center">
-  <img src="static/images/logo.png" alt="Eventure Logo" width="200"/>
+  <img src="static/images/evenure_logo.png" alt="Eventure Logo" width="200"/>
   <p><i>Your Vision, Our Expertise - Unforgettable Events</i></p>
 </div>
 
