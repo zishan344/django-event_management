@@ -22,8 +22,8 @@
         
         <div class=" md:col-span-4 flex flex-col justify-between p-4">
           <div class="flex justify-between gap-4 flex-wrap items-center">
-            <p class="text-sm "><span>Category :</span> <span class="bg-red-300 px-1 rounded-md">{{event.category}}</span></p>
-            <p class="text-sm "><span>Location :</span> <span class="bg-red-300 px-1 rounded-md">{{event.location}}</span></p>
+            <p class="text-sm "><span>Category :</span> <span class="bg-blue-300 px-1 rounded-md">{{event.category}}</span></p>
+            <p class="text-sm "><span>Location :</span> <span class="bg-blue-300 px-1 rounded-md">{{event.location}}</span></p>
           </div>
           <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"> {{event}}
           </h5>
@@ -46,7 +46,7 @@
               <p class="text-sm text-center flex flex-col"><span>Total Participant</span> <span class="font-mono font-semibold">{{event.participant.count}}</span></p>
             </div>
             <div class="place-items-start md:place-items-end">
-              <p class="text-sm "><a href="{% url "event-details" event.id %}" class =" bg-red-300 hover:bg-red-400 px-2 py-1 rounded-md "> Event details</a></p>
+              <p class="text-sm "><a href="{% url "event-details" event.id %}" class =" bg-blue-300 hover:bg-blue-400 px-2 py-1 rounded-md "> Event details</a></p>
             </div>
           </div>
         </div>

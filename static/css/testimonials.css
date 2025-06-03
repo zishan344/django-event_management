@@ -298,17 +298,17 @@
 }
 
 /* Red theme glow effects */
-.btn-red-glow {
+.btn-blue-glow {
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
 }
 
-.btn-red-glow:hover {
+.btn-blue-glow:hover {
   box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
 }
 
-.btn-red-glow::before {
+.btn-blue-glow::before {
   content: "";
   position: absolute;
   top: 0;
@@ -324,7 +324,7 @@
   transition: left 0.7s;
 }
 
-.btn-red-glow:hover::before {
+.btn-blue-glow:hover::before {
   left: 100%;
 }
 

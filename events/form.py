@@ -12,7 +12,7 @@ class StyledFormMixin:
         "px-2 border-2 border-primary w-full focus:outline-none rounded-lg shadow-sm "
         "focus:border-primary focus:ring-primary form-control"
     )
-    checkbox_classes = "form-checkbox text-blue-500 focus:ring-primary focus:ring-red-300 form-control"
+    checkbox_classes = "form-checkbox text-blue-500 focus:ring-primary focus:ring-blue-300 form-control"
     select_classes = (
         "border-2 border-gray-300 w-full rounded-lg shadow-sm "
         "focus:border-primary focus:ring-primary"
