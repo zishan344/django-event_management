@@ -26,7 +26,7 @@ body {
 
 /* Fix gradient text fallback */
 .gradient-text-fallback {
-  color: #ef4444;
+  color: #1e3a8a;
   font-weight: 600;
 }
 
@@ -55,10 +55,10 @@ body {
 @keyframes pulse-glow {
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+    box-shadow: 0 0 20px rgba(30, 58, 138, 0.3);
   }
   50% {
-    box-shadow: 0 0 40px rgba(239, 68, 68, 0.6);
+    box-shadow: 0 0 40px rgba(30, 58, 138, 0.6);
   }
 }
 
@@ -76,7 +76,7 @@ body {
 
 /* Gradient text effect */
 .gradient-text {
-  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e3a8a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

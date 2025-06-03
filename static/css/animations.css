@@ -1,6 +1,3 @@
-/* Additional CSS for animated elements and improved layout */
-
-/* Create falling confetti background for event sections */
 .confetti-bg {
   position: relative;
   overflow: hidden;
@@ -15,22 +12,22 @@
   height: 100%;
   background-image: radial-gradient(
       circle at 10% 20%,
-      rgba(255, 45, 45, 0.1) 0%,
+      rgba(30, 58, 138, 0.1) 0%,
       transparent 20%
     ),
     radial-gradient(
       circle at 90% 30%,
-      rgba(255, 45, 45, 0.08) 0%,
+      rgba(30, 58, 138, 0.08) 0%,
       transparent 20%
     ),
     radial-gradient(
       circle at 40% 80%,
-      rgba(255, 45, 45, 0.05) 0%,
+      rgba(30, 58, 138, 0.05) 0%,
       transparent 20%
     ),
     radial-gradient(
       circle at 70% 90%,
-      rgba(255, 45, 45, 0.07) 0%,
+      rgba(30, 58, 138, 0.07) 0%,
       transparent 20%
     );
   z-index: 0;
@@ -183,12 +180,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #ef4444, #b91c1c);
+  background: linear-gradient(to bottom, #1e3a8a, #1e3a8a);
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #b91c1c;
+  background: #1e3a8a;
 }
 
 /* Newsletter animations */
