@@ -3,7 +3,7 @@
 /* Enhanced hover effects for testimonial cards */
 .testimonial-card {
   transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
-  border: 1px solid rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(30, 58, 138, 0.05);
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -19,8 +19,8 @@
   bottom: 0;
   background: linear-gradient(
     135deg,
-    rgba(254, 226, 226, 0.3) 0%,
-    rgba(254, 202, 202, 0.2) 100%
+    rgba(30, 58, 138, 0.3) 0%,
+    rgba(30, 58, 138, 0.2) 100%
   );
   opacity: 0;
   transition: opacity 0.5s ease;
@@ -29,9 +29,9 @@
 
 .testimonial-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 15px 30px -5px rgba(239, 68, 68, 0.15),
+  box-shadow: 0 15px 30px -5px rgba(30, 58, 138, 0.15),
     0 10px 15px -8px rgba(0, 0, 0, 0.1);
-  border-color: rgba(239, 68, 68, 0.15);
+  border-color: rgba(30, 58, 138, 0.15);
 }
 
 .testimonial-card:hover:before {
@@ -50,7 +50,7 @@
   content: "";
   font-size: 3rem;
   font-family: Georgia, serif;
-  color: rgba(239, 68, 68, 0.2);
+  color: rgba(30, 58, 138, 0.2);
   position: absolute;
   left: -0.5rem;
   top: -1rem;
@@ -94,7 +94,7 @@
 .swiper-button-next:focus,
 .swiper-button-prev:focus,
 .swiper-pagination-bullet:focus {
-  outline: 2px solid #dc2626;
+  outline: 2px solid #1e3a8a;
   outline-offset: 3px;
 }
 
@@ -102,7 +102,7 @@
 .swiper-button-next:focus-visible,
 .swiper-button-prev:focus-visible {
   transform: scale(1.1);
-  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.3);
+  box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.3);
 }
 
 .star-rating svg {
@@ -138,13 +138,13 @@
 /* Comment icon animation */
 @keyframes pulse-shadow {
   0% {
-    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+    box-shadow: 0 0 0 0 rgba(30, 58, 138, 0.4);
   }
   70% {
-    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+    box-shadow: 0 0 0 10px rgba(30, 58, 138, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    box-shadow: 0 0 0 0 rgba(30, 58, 138, 0);
   }
 }
 
@@ -166,7 +166,7 @@
 .swiper-pagination-bullet {
   width: 10px;
   height: 10px;
-  background-color: #dc2626;
+  background-color: #1e3a8a;
   opacity: 0.3;
   transition: all 0.4s ease;
   margin: 0 6px;
@@ -174,9 +174,9 @@
 
 .swiper-pagination-bullet-active {
   opacity: 1;
-  background-color: #dc2626;
+  background-color: #1e3a8a;
   transform: scale(1.2);
-  box-shadow: 0 0 10px rgba(220, 38, 38, 0.4);
+  box-shadow: 0 0 10px rgba(30, 58, 138, 0.4);
 }
 
 /* Create nice dynamic bullet effect */
@@ -187,7 +187,7 @@
 
 .swiper-button-next,
 .swiper-button-prev {
-  color: #dc2626;
+  color: #1e3a8a;
   background: white;
   width: 44px;
   height: 44px;
@@ -197,16 +197,16 @@
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  border: 2px solid rgba(239, 68, 68, 0.05);
+  border: 2px solid rgba(30, 58, 138, 0.05);
   opacity: 0.9;
 }
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-  background: #fef2f2;
-  color: #b91c1c;
+  background: #e0e7ff;
+  color: #1e3a8a;
   opacity: 1;
-  border-color: rgba(239, 68, 68, 0.2);
+  border-color: rgba(30, 58, 138, 0.2);
 }
 
 .swiper-button-next:after,
@@ -231,8 +231,8 @@
 /* Testimonial active slide effect */
 .swiper-slide-active .testimonial-card {
   transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 15px 30px rgba(239, 68, 68, 0.15);
-  border-color: rgba(239, 68, 68, 0.2);
+  box-shadow: 0 15px 30px rgba(30, 58, 138, 0.15);
+  border-color: rgba(30, 58, 138, 0.2);
 }
 
 .swiper-slide-active .testimonial-card:before {
@@ -291,24 +291,24 @@
 
 /* Gradient text effect */
 .gradient-text-red {
-  background: linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #b91c1c 100%);
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e3a8a 50%, #1e3a8a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Red theme glow effects */
-.btn-red-glow {
+/* Blue theme glow effects */
+.btn-blue-glow {
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
 }
 
-.btn-red-glow:hover {
-  box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+.btn-blue-glow:hover {
+  box-shadow: 0 0 30px rgba(30, 58, 138, 0.5);
 }
 
-.btn-red-glow::before {
+.btn-blue-glow::before {
   content: "";
   position: absolute;
   top: 0;
@@ -324,17 +324,17 @@
   transition: left 0.7s;
 }
 
-.btn-red-glow:hover::before {
+.btn-blue-glow:hover::before {
   left: 100%;
 }
 
-/* Overriding color classes for the red theme */
+/* Overriding color classes for the blue theme */
 .bg-primary {
-  background-color: #ef4444 !important; /* Red-500 */
+  background-color: #1e3a8a !important; /* Blue-800 */
 }
 
 .text-primary {
-  color: #ef4444 !important; /* Red-500 */
+  color: #1e3a8a !important; /* Blue-800 */
 }
 
 .bg-hover {
@@ -346,7 +346,7 @@
 }
 
 .from-primary {
-  --tw-gradient-from: #ef4444 !important;
+  --tw-gradient-from: #1e3a8a !important;
 }
 
 .to-focus-ring {

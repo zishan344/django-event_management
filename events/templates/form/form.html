@@ -1,48 +1,185 @@
 {% extends "base.html" %}
 {% block title %} {{ form_title }} {% endblock %}
 {% block content %}
-<div class="border border-sky-100 w-full md:w-1/2 mx-auto shadow-md rounded-md px-4 py-4 my-20 bg-white dark:bg-gray-900">
-  <h1 class="text-center text-xl font-semibold mb-3 text-gray-700 dark:text-white">{{ form_title }}</h1>
-
-  {% if messages %}
-    {% for message in messages %}
-      <div class="px-2 py-1 my-2 text-white {% if message.tags == 'success' %}bg-green-500{% elif message.tags == 'error' %}bg-error{% else %}bg-gray-500{% endif %} rounded-md">
-        {{ message }}
+<div class="min-h-[80vh] flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+  <div class="w-full mt-10 max-w-2xl">
+    <!-- Form Card -->
+    <div class="bg-white dark:bg-gray-800 shadow-xl rounded-2xl border border-gray-100 dark:border-gray-700">
+      <!-- Form Header -->
+      <div class="px-6 py-5 border-b border-gray-200 dark:border-gray-700">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white text-center">
+          {{ form_title }}
+        </h1>
       </div>
-    {% endfor %}
-  {% endif %} 
 
-  <form method="POST" enctype="multipart/form-data" class="space-y-4">
-    {% csrf_token %}
-
-    {% if create_form %}
-      {% for field in create_form %}
-        <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ field.label }}</label>
-          {{ field }}
-          {% if field.errors %}
-            <p class="text-error text-xs mt-1">{{ field.errors.0 }}</p>
-          {% endif %}
+      <!-- Messages -->
+      {% if messages %}
+        <div class="px-6 pt-4">
+          {% for message in messages %}
+            <div class="rounded-lg px-4 py-3 mb-3 {% if message.tags == 'success' %}bg-green-50 text-green-800 dark:bg-green-900/50 dark:text-green-300{% elif message.tags == 'error' %}bg-red-50 text-red-800 dark:bg-red-900/50 dark:text-red-300{% else %}bg-gray-50 text-gray-800 dark:bg-gray-900/50 dark:text-gray-300{% endif %} flex items-center">
+              <svg class="h-5 w-5 mr-2 {% if message.tags == 'success' %}text-green-500{% elif message.tags == 'error' %}text-red-500{% else %}text-gray-500{% endif %}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                {% if message.tags == 'success' %}
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                {% elif message.tags == 'error' %}
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                {% else %}
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                {% endif %}
+              </svg>
+              {{ message }}
+            </div>
+          {% endfor %}
         </div>
-      {% endfor %}
-    {% else %}
-      {% for field in form %}
-        <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ field.label }}</label>
-          {{ field }}
-          {% if field.errors %}
-            <p class="text-error text-xs mt-1">{{ field.errors.0 }}</p>
-          {% endif %}
-        </div>
-      {% endfor %}
-    {% endif %}
+      {% endif %}
 
-    <button 
-      class="w-full my-2 bg-primary text-white px-4 py-2 rounded-lg shadow-md hover:bg-hover transition-all duration-300" 
-      type="submit" 
-      name="{{ submit }}">
-      {% if submitTitle %}{{ submitTitle }}{% else %}Submit{% endif %}
-    </button>
-  </form>
+      <!-- Form Content -->
+      <form method="POST" enctype="multipart/form-data" class="px-6 py-5 space-y-5">
+        {% csrf_token %}
+
+        {% if create_form %}
+          {% for field in create_form %}
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                {{ field.label }}
+              </label>
+              <div class="relative rounded-lg">
+                {{ field }}
+                {% if field.errors %}
+                  <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                {% endif %}
+              </div>
+              {% if field.errors %}
+                <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ field.errors.0 }}</p>
+              {% endif %}
+              {% if field.help_text %}
+                <p class="mt-1.5 text-sm text-gray-500 dark:text-gray-400">{{ field.help_text }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% else %}
+          {% for field in form %}
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                {{ field.label }}
+              </label>
+              <div class="relative rounded-lg">
+                {{ field }}
+                {% if field.errors %}
+                  <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                {% endif %}
+              </div>
+              {% if field.errors %}
+                <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ field.errors.0 }}</p>
+              {% endif %}
+              {% if field.help_text %}
+                <p class="mt-1.5 text-sm text-gray-500 dark:text-gray-400">{{ field.help_text }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <div class="pt-2">
+          <button 
+            type="submit" 
+            name="{{ submit }}"
+            class="w-full flex justify-center items-center px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-300 shadow-sm hover:shadow">
+            <svg class="animate-spin -ml-1 mr-3 h-4 w-4 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>{% if submitTitle %}{{ submitTitle }}{% else %}Submit{% endif %}</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Add loading state to form on submit
+  const form = document.querySelector('form');
+  form?.addEventListener('submit', function() {
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const loadingIcon = submitBtn.querySelector('svg');
+    const submitText = submitBtn.querySelector('span');
+    
+    submitBtn.disabled = true;
+    loadingIcon.classList.remove('hidden');
+    submitText.textContent = 'Processing...';
+    
+    // Re-enable after timeout (fallback)
+    setTimeout(() => {
+      submitBtn.disabled = false;
+      loadingIcon.classList.add('hidden');
+      submitText.textContent = '{% if submitTitle %}{{ submitTitle }}{% else %}Submit{% endif %}';
+    }, 5000);
+  });
+
+  // Style form inputs
+  const inputs = document.querySelectorAll('input:not([type="submit"]):not([type="file"]), select, textarea');
+  inputs.forEach(input => {
+    input.classList.add(
+      'w-full',
+      'px-3',
+      'py-2',
+      'border',
+      'border-gray-300',
+      'dark:border-gray-600',
+      'rounded-lg',
+      'shadow-sm',
+      'focus:ring-2',
+      'focus:ring-blue-500',
+      'focus:ring-opacity-50',
+      'focus:border-blue-500',
+      'dark:focus:border-blue-500',
+      'bg-white',
+      'dark:bg-gray-700',
+      'text-gray-900',
+      'dark:text-gray-100',
+      'placeholder-gray-500',
+      'dark:placeholder-gray-400',
+      'disabled:bg-gray-50',
+      'disabled:text-gray-500',
+      'disabled:border-gray-200',
+      'disabled:shadow-none',
+      'transition-colors',
+      'duration-200'
+    );
+  });
+
+  // Style file inputs
+  const fileInputs = document.querySelectorAll('input[type="file"]');
+  fileInputs.forEach(input => {
+    input.classList.add(
+      'block',
+      'w-full',
+      'text-sm',
+      'text-gray-500',
+      'dark:text-gray-400',
+      'file:mr-4',
+      'file:py-2',
+      'file:px-4',
+      'file:rounded-md',
+      'file:border-0',
+      'file:text-sm',
+      'file:font-medium',
+      'file:bg-blue-50',
+      'file:text-blue-700',
+      'hover:file:bg-blue-100',
+      'dark:file:bg-blue-900/30',
+      'dark:file:text-blue-400',
+      'dark:hover:file:bg-blue-900/40'
+    );
+  });
+});
+</script>
 {% endblock %}

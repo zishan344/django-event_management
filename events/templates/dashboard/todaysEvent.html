@@ -1,8 +1,4 @@
 {% load static %}
-<div class="my-10">
-  <h5 class="mb-4 text-xl text-start font-bold tracking-tight text-gray-500 dark:text-white">
-    <span class="">Todays Event
-  </h5>
   {% for event in todays_events %}
     <div class="my-2 rounded-md">
       <article
@@ -21,9 +17,8 @@
       </div>
         
         <div class=" md:col-span-4 flex flex-col justify-between p-4">
-          <div class="flex justify-between gap-4 flex-wrap items-center">
-            <p class="text-sm "><span>Category :</span> <span class="bg-red-300 px-1 rounded-md">{{event.category}}</span></p>
-            <p class="text-sm "><span>Location :</span> <span class="bg-red-300 px-1 rounded-md">{{event.location}}</span></p>
+          <div class="flex justify-between gap-4 flex-wrap items-center">            <p class="text-sm"><span>Category:</span> <span class="bg-blue-100 text-blue-900 dark:bg-blue-900/30 dark:text-blue-300 px-2 py-0.5 rounded-md text-xs font-medium">{{event.category}}</span></p>
+            <p class="text-sm"><span>Location:</span> <span class="bg-blue-100 text-blue-900 dark:bg-blue-900/30 dark:text-blue-300 px-2 py-0.5 rounded-md text-xs font-medium">{{event.location}}</span></p>
           </div>
           <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"> {{event}}
           </h5>
@@ -46,7 +41,13 @@
               <p class="text-sm text-center flex flex-col"><span>Total Participant</span> <span class="font-mono font-semibold">{{event.participant.count}}</span></p>
             </div>
             <div class="place-items-start md:place-items-end">
-              <p class="text-sm "><a href="{% url "event-details" event.id %}" class =" bg-red-300 hover:bg-red-400 px-2 py-1 rounded-md "> Event details</a></p>
+              <p class="text-sm"><a href="{% url "event-details" event.id %}" class="text-white bg-blue-900 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-700 font-medium rounded-md px-3 py-1.5 transition-colors duration-300 inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                  <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                </svg>
+                Event Details
+              </a></p>
             </div>
           </div>
         </div>
