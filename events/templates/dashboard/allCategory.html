@@ -1,16 +1,7 @@
 {% load static %}
-<div class="my-10">
-  <h5 class="mb-4 text-xl text-start font-bold tracking-tight text-gray-500 dark:text-white">
-   <span class="">All Category
- </h5>
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white dark:bg-gray-800">
   <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-   <caption class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-    <a href="{% url "create-category" %}" class="bg-primary hover:bg-hover text-white focus:ring-4 focus:outline-none focus:ring-error font-medium rounded-lg text-sm px-4 py-2 text-center shadow-lg transition-all duration-300">
-      Create Category
-    </a>
-    
-   </caption>
+   
    <thead class="text-xs text-gray-700 uppercase  bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
        <tr>
            <th scope="col" class="px-6 py-3">
@@ -33,17 +24,16 @@
              </th>
            <td class="px-6 py-4">
                {{category.description}}
-           </td>
-           <td class="px-6 py-4 text-right">
-             <div class="flex gap-4 items-center">
+           </td>           <td class="px-6 py-4 text-right">
+             <div class="flex gap-2 items-center justify-end">
                <form action="{% url "update-category" category.id %}" method="POST">
                  {% csrf_token %}
-                   <button type="submit" class =" text-black bg-green-400 px-2 py-1 rounded-md ">Edit</button>
+                   <button type="submit" class="text-white bg-blue-900 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-700 font-medium rounded-md px-3 py-1.5 transition-colors duration-300">Edit</button>
                  </form>
            
                  <form action="{% url "delete-category" category.id %}" method='POST'>
                    {% csrf_token %}
-                   <button type='submit' class="bg-blue-500 py-1 px-2 rounded-md text-white">Delete</button>
+                   <button type='submit' class="text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium rounded-md px-3 py-1.5 transition-colors duration-300">Delete</button>
                </form>
              </div>
            </td>

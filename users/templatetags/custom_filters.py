@@ -17,3 +17,12 @@ def humanized_date(value):
         else:
             return f"{value.date().strftime('%B %d')}, {value.strftime('%I:%M %p')}"
     return "No login record available"
+
+
+@register.filter(name='add_class')
+def add_class(field, css_class):
+    """
+    Add CSS classes to form fields
+    Usage: {{ form.field|add_class:"my-class another-class" }}
+    """
+    return field.as_widget(attrs={"class": css_class})

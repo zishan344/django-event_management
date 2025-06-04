@@ -1,15 +1,8 @@
 {% load static %}
-<div class="my-10">
-  <h5 class="mb-6 text-2xl font-semibold text-start text-gray-800 dark:text-white">
-    All Roles
-  </h5>
-  <div class="relative overflow-x-auto shadow-lg sm:rounded-xl">
+<div class="my-8">
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white dark:bg-gray-800">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-      <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-gray-100 dark:bg-gray-800 dark:text-white">
-        <a href="{% url 'create-role' %}" class="bg-primary hover:bg-hover text-white focus:ring-4 focus:outline-none focus:ring-error font-medium rounded-lg text-sm px-4 py-2 text-center shadow-lg transition-all duration-300">
-          Create Role
-        </a>
-      </caption>
+     
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
           <th scope="col" class="px-6 py-3 text-left">
@@ -25,11 +18,14 @@
       </thead>
       <tbody>
         {% for group in groups %}
-        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-          <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">          <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
             {{ group.name }}
-            <a href="{% url 'role-details' %}" class="bg-secondary hover:bg-hover text-black px-2 py-1 rounded-md transition-all duration-300">
-              Details
+            <a href="{% url 'role-details' %}" class="text-blue-900 hover:text-blue-700 font-medium text-xs flex items-center w-fit mt-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+              </svg>
+              View Details
             </a>
           </th>
           <td class="px-6 py-4">
@@ -41,19 +37,24 @@
             {% if group.permissions.count > 7 %}
               <span class="text-gray-400">...</span>
             {% endif %}
-          </td>
-          <td class="px-6 py-4 text-right">
-            <div class="flex gap-4 items-center justify-end">
+          </td>          <td class="px-6 py-4">
+            <div class="flex gap-2 items-center justify-end">
               <form action="{% url 'update-rolePermission' group.id %}" method="POST">
                 {% csrf_token %}
-                <button type="submit" class="text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-md px-4 py-2 transition-colors duration-300">
+                <button type="submit" class="text-white bg-blue-900 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-700 font-medium rounded-md px-3 py-1.5 transition-colors duration-300 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                  </svg>
                   Edit
                 </button>
               </form>
 
               <form action="{% url 'role-delete' group.id %}" method="POST">
                 {% csrf_token %}
-                <button type="submit" class="text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-md px-4 py-2 transition-colors duration-300">
+                <button type="submit" class="text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 font-medium rounded-md px-3 py-1.5 transition-colors duration-300 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                  </svg>
                   Delete
                 </button>
               </form>
