@@ -12,7 +12,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-%%$%87i_2cknxdhk*b3t1164c@6i0r)v(e*85^4!ij7d7s)8wu')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', "localhost", '.now.sh']
@@ -86,35 +85,17 @@ WSGI_APPLICATION = 'event_management.wsgi.app'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# Use PostgreSQL for production (Vercel), SQLite for local development
+
 DATABASES = {
-    'default': dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default='postgresql://event_management_2_user:ITsMNGCcUwNje0WlkTahxTzlNHTPkWbN@dpg-cuoq8j52ng1s73ebmvhg-a.oregon-postgres.render.com/event_management_2',
-        conn_max_age=600
-    )
-}
-
-# Use SQLite for local development only
-if os.environ.get('VERCEL_ENV') is None and os.environ.get('DATABASE_URL') is None:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER':'postgres.pexcruhmgmmprreluruc',
+        'PASSWORD': '4#B8_iVw!Jn+C3K',
+        'HOST': 'aws-1-ap-south-1.pooler.supabase.com',
+        'PORT': 6543,
     }
-
-# Alternative PostgreSQL configuration (commented out)
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'event_management',
-#         'USER': 'postgres',
-#         'PASSWORD': '1234',
-#         'HOST': 'localhost',
-#         'PORT': '5432'
-#     }
-# }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -154,12 +135,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Only use STATICFILES_DIRS in development
-import os
-if os.environ.get('VERCEL_ENV') is None:
-    STATICFILES_DIRS = [
-        BASE_DIR / "static"
-    ]
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"

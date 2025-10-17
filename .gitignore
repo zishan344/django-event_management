@@ -6,4 +6,5 @@ node_modules
 *.pyo
 *.log
 .env
+db.sqlite3
 .vercel
