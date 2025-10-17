@@ -1,0 +1,131 @@
+/* Mobile Responsiveness Enhancements */
+
+/* Global responsive adjustments */
+@media (max-width: 640px) {
+  h1,
+  .h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+
+  h2,
+  .h2 {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  h3,
+  .h3 {
+    font-size: 1.5rem;
+  }
+
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .py-20 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .py-16 {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .py-12 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+/* Navigation menu responsiveness */
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
+  }
+
+  .navbar-links {
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  .navbar-links a {
+    display: block;
+    padding: 0.5rem 0;
+  }
+}
+
+/* Hero section mobile adjustments */
+@media (max-width: 768px) {
+  .hero-content {
+    text-align: center;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-image {
+    margin-top: 2rem;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Partner logos and gallery mobile adjustments */
+@media (max-width: 640px) {
+  .partners-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Newsletter form mobile adjustments */
+@media (max-width: 640px) {
+  .newsletter-form {
+    flex-direction: column;
+  }
+
+  .newsletter-input {
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+
+  .newsletter-button {
+    width: 100%;
+  }
+}
+
+/* Stats section mobile adjustments */
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* FAQ accordion mobile adjustments */
+@media (max-width: 640px) {
+  .faq-button {
+    font-size: 1rem;
+  }
+}
+
+/* Call to action mobile adjustments */
+@media (max-width: 640px) {
+  .cta-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .cta-button {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
