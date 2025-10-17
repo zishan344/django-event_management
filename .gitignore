@@ -2,3 +2,12 @@
 event-env
 __pycache__
 node_modules
+*.pyc
+*.pyo
+*.log
+.env
+db.sqlite3
+.DS_Store
+staticfiles/
+media/
+.vercel
