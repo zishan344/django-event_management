@@ -49,9 +49,19 @@ MIDDLEWARE = [
     
 ]
 
+# Debug Toolbar Configuration for Production
 INTERNAL_IPS = [
-    "127.0.0.1"
+    "127.0.0.1",
 ]
+
+# Allow debug toolbar to work on Vercel
+def show_toolbar(request):
+    return True
+
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": show_toolbar,
+}
+
 ROOT_URLCONF = 'event_management.urls'
 
 TEMPLATES = [
@@ -76,21 +86,25 @@ WSGI_APPLICATION = 'event_management.wsgi.app'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-""" DATABASES = {
+# Use PostgreSQL for production (Vercel), SQLite for local development
+DATABASES = {
     'default': dj_database_url.config(
         # Replace this value with your local database's connection string.
         default='postgresql://event_management_2_user:ITsMNGCcUwNje0WlkTahxTzlNHTPkWbN@dpg-cuoq8j52ng1s73ebmvhg-a.oregon-postgres.render.com/event_management_2',
         conn_max_age=600
     )
-} """
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
 }
 
+# Use SQLite for local development only
+if os.environ.get('VERCEL_ENV') is None and os.environ.get('DATABASE_URL') is None:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
+# Alternative PostgreSQL configuration (commented out)
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
