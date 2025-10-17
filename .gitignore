@@ -6,6 +6,4 @@ node_modules
 *.pyo
 *.log
 .env
-staticfiles/
-media/
 .vercel
