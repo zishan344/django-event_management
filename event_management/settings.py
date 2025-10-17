@@ -37,7 +37,7 @@ INSTALLED_APPS = [
 
 
 MIDDLEWARE = [
-    # 'debug_toolbar.middleware.DebugToolbarMiddleware',  # Disable in production
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -165,5 +165,6 @@ EMAIL_HOST_PASSWORD = 'lcmh qfid cymj nite'
 PASSWORD_RESET_TIMEOUT = 14400
 
 
-FRONTEND_URL ="https://django-event-management-9iep.onrender.com"
+# FRONTEND_URL ="https://django-event-management-9iep.onrender.com"
+FRONTEND_URL ="https://django-event-management-wheat.vercel.app"
 # FRONTEND_URL ="http://127.0.0.1:8000"
