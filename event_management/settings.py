@@ -161,12 +161,8 @@ if not os.environ.get('VERCEL_ENV'):
 # Media Files Configuration
 MEDIA_URL = '/media/'
 
-# Use Cloudinary for production, local filesystem for development
-if os.environ.get('VERCEL_ENV') or os.environ.get('CLOUDINARY_CLOUD_NAME'):
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-else:
-    MEDIA_ROOT = BASE_DIR / 'media'
-    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+# Always use Cloudinary for media storage (both development and production)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Static files storage
 if os.environ.get('VERCEL_ENV'):
