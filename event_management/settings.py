@@ -134,10 +134,20 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Only use STATICFILES_DIRS in development
+# For development - load static files from static folder
+if not os.environ.get('VERCEL_ENV'):
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static',
+    ]
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# Use basic static files storage for Vercel
+if os.environ.get('VERCEL_ENV'):
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+else:
+    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
