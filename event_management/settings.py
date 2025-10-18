@@ -14,9 +14,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-%%$%87i_2cknxdhk*b3t1
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', "localhost", '.now.sh']
+ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', "localhost", '.now.sh', '.onrender.com']
 AUTH_USER_MODEL='users.CustomUser'
-CSRF_TRUSTED_ORIGINS=["https://*.onrender.com","http://127.0.0.1:8000", "https://*.vercel.app/"]
+CSRF_TRUSTED_ORIGINS=["https://*.onrender.com","http://127.0.0.1:8000", "https://*.vercel.app"]
 
 # Application definition
 INSTALLED_APPS = [
@@ -154,6 +154,6 @@ EMAIL_HOST_PASSWORD = 'lcmh qfid cymj nite'
 PASSWORD_RESET_TIMEOUT = 14400
 
 
-# FRONTEND_URL ="https://django-event-management-9iep.onrender.com"
-FRONTEND_URL ="https://django-event-management-wheat.vercel.app"
+FRONTEND_URL ="django-event-management-2.onrender.com"
+# FRONTEND_URL ="https://django-event-management-wheat.vercel.app"
 # FRONTEND_URL ="http://127.0.0.1:8000"
