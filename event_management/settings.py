@@ -13,9 +13,9 @@ load_dotenv(BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-%%$%87i_2cknxdhk*b3t1164c@6i0r)v(e*85^4!ij7d7s)8wu')
 
-DEBUG = os.environ.get('DEBUG')
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', "localhost", '.now.sh', '.onrender.com']
 AUTH_USER_MODEL='users.CustomUser'
@@ -158,10 +158,17 @@ if not os.environ.get('VERCEL_ENV'):
         BASE_DIR / 'static',
     ]
 
+# Media Files Configuration
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-# Use basic static files storage for Vercel
+
+# Use Cloudinary for production, local filesystem for development
+if os.environ.get('VERCEL_ENV') or os.environ.get('CLOUDINARY_CLOUD_NAME'):
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+else:
+    MEDIA_ROOT = BASE_DIR / 'media'
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+# Static files storage
 if os.environ.get('VERCEL_ENV'):
     STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 else:
@@ -173,13 +180,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Emailing settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ.get('EMAIL_HOST')
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT'))
-EMAIL_FROM = os.environ.get('EMAIL_FROM')
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-PASSWORD_RESET_TIMEOUT = int(os.environ.get('PASSWORD_RESET_TIMEOUT'))
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
+EMAIL_FROM = os.environ.get('EMAIL_FROM', 'noreply@example.com')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+PASSWORD_RESET_TIMEOUT = int(os.environ.get('PASSWORD_RESET_TIMEOUT', '14400'))
 
 # Frontend URL
 FRONTEND_URL = os.environ.get('FRONTEND_URL')
