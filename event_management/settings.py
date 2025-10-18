@@ -13,9 +13,9 @@ load_dotenv(BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-%%$%87i_2cknxdhk*b3t1164c@6i0r)v(e*85^4!ij7d7s)8wu')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = os.environ.get('DEBUG')
 
 ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', "localhost", '.now.sh', '.onrender.com']
 AUTH_USER_MODEL='users.CustomUser'
@@ -88,23 +88,23 @@ WSGI_APPLICATION = 'event_management.wsgi.app'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME', 'postgres'),
-        'USER': os.environ.get('DB_USER', 'postgres'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
     }
 }
 
 # Fallback to SQLite for local development if no DB credentials provided
-if not os.environ.get('DB_PASSWORD'):
+""" if not os.environ.get('DB_PASSWORD'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-
+"""
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -163,13 +163,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Emailing settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
-EMAIL_FROM = os.environ.get('EMAIL_FROM', 'noreply@example.com')
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
-PASSWORD_RESET_TIMEOUT = int(os.environ.get('PASSWORD_RESET_TIMEOUT', '14400'))
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT'))
+EMAIL_FROM = os.environ.get('EMAIL_FROM')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+PASSWORD_RESET_TIMEOUT = int(os.environ.get('PASSWORD_RESET_TIMEOUT'))
 
 # Frontend URL
 FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://127.0.0.1:8000')
