@@ -7,6 +7,4 @@ class CustomUser(AbstractUser):
             RegexValidator(regex=r'^\+?1?\d{9,15}$',
                 message="Phone number must be entered in the format: '+88011111112221'. Up to 15 digits allowed."
             )])
-    profile_image = models.ImageField(
-        upload_to='profile_images',blank=True,default='profile_images/default.png'
-        )
+    profile_image = models.ImageField(upload_to='images/', blank=True)

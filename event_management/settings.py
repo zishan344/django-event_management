@@ -2,7 +2,7 @@ from pathlib import Path
 import dj_database_url
 import os
 from dotenv import load_dotenv
-
+import cloudinary
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,6 +21,14 @@ ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', "localhost", '.now.sh', '.onrender.
 AUTH_USER_MODEL='users.CustomUser'
 CSRF_TRUSTED_ORIGINS=["https://*.onrender.com","http://127.0.0.1:8000", "https://*.vercel.app"]
 
+# Cloudinary setup
+CLOUDINARY_STORAGE ={
+'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+'SECURE': True
+}
+
 # Application definition
 INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
@@ -30,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'debug_toolbar',
     'events',
     'users',
@@ -150,7 +160,7 @@ if not os.environ.get('VERCEL_ENV'):
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # Use basic static files storage for Vercel
 if os.environ.get('VERCEL_ENV'):
     STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
@@ -172,4 +182,5 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 PASSWORD_RESET_TIMEOUT = int(os.environ.get('PASSWORD_RESET_TIMEOUT'))
 
 # Frontend URL
-FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://127.0.0.1:8000')
+FRONTEND_URL = os.environ.get('FRONTEND_URL')
+
