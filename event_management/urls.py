@@ -3,11 +3,12 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 from events.views import showHome
-from core.views import NoPermissions,EventureContact,EventureAboutus
+from core.views import NoPermissions, EventureContact, EventureAboutus, health_check
 from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('health/', health_check, name='health-check'),
     path('',showHome,name="home"),
     path('no-permission/',NoPermissions,name="no-permission"),
     path('',include('events.urls')),
