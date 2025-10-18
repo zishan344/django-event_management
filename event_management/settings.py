@@ -169,11 +169,12 @@ if not os.environ.get('VERCEL_ENV'):
         BASE_DIR / 'static',
     ]
 
-# Media Files Configuration
-MEDIA_URL = '/media/'
-
+# Media Files Configuration - Using Cloudinary
 # Always use Cloudinary for media storage (both development and production)
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Cloudinary will handle MEDIA_URL automatically
+# Don't set MEDIA_ROOT when using Cloudinary
 
 # Static files storage
 if os.environ.get('VERCEL_ENV'):
