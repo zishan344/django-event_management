@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.http import JsonResponse
 from django.db import connection
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 
@@ -18,10 +18,11 @@ class EventureAboutus(TemplateView):
 
 
 @csrf_exempt
-@require_GET
+@require_http_methods(["GET", "HEAD"])
 def health_check(request):
     """
     Health check endpoint that tests database connectivity
+    Accepts both GET and HEAD requests for monitoring tools like UptimeRobot
     Returns: JSON response with status and database info
     """
     try:
@@ -35,7 +36,7 @@ def health_check(request):
         db_name = connection.settings_dict.get('NAME', 'Unknown')
         db_host = connection.settings_dict.get('HOST', 'localhost')
         
-        return JsonResponse({
+        response_data = {
             'status': 'healthy',
             'timestamp': datetime.now().isoformat(),
             'database': {
@@ -45,10 +46,16 @@ def health_check(request):
                 'host': db_host
             },
             'message': 'Database connection successful'
-        }, status=200)
+        }
+        
+        # HEAD requests don't need response body (more efficient for monitoring)
+        if request.method == 'HEAD':
+            return JsonResponse({}, status=200)
+            
+        return JsonResponse(response_data, status=200)
         
     except Exception as e:
-        return JsonResponse({
+        error_data = {
             'status': 'unhealthy',
             'timestamp': datetime.now().isoformat(),
             'database': {
@@ -56,4 +63,10 @@ def health_check(request):
                 'error': str(e)
             },
             'message': 'Database connection failed'
-        }, status=503)
+        }
+        
+        # HEAD requests don't need response body
+        if request.method == 'HEAD':
+            return JsonResponse({}, status=503)
+            
+        return JsonResponse(error_data, status=503)
