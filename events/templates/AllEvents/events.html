@@ -146,7 +146,7 @@
           <!-- Event Image -->
           <div class="relative h-48 overflow-hidden">
             {% if event.image %}
-            <img src="{{ event.image.url }}" 
+            <img src="{{ event.event_images.url }}"
                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
                  alt="{{ event.name }}">
             {% else %}

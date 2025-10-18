@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-
+from cloudinary.models import CloudinaryField
 User = get_user_model()
 
 # category models
@@ -21,7 +21,7 @@ class Event(models.Model):
     location = models.CharField(max_length=250)
     category = models.ForeignKey('Category',on_delete=models.CASCADE)
     participant = models.ManyToManyField(User,related_name='rsvp_event', blank=True)
-    image = models.ImageField(upload_to='event_images/', blank=True, null=True)
+    image = CloudinaryField('image', folder='event_images', blank=True, null=True)
     def __str__(self):
         return self.name
 
