@@ -20,10 +20,10 @@ Eventure is a comprehensive event management platform built with Django, designe
 
 ## Tech Stack
 
-- **Backend**: Django (Python web framework)
+- **Backend**: Django (Python web framework),cloudinary
 - **Frontend**: HTML, CSS, JavaScript
 - **CSS Framework**: Tailwind CSS
-- **Database**: SQLite (development) / PostgreSQL (production)
+- **Database**: PostgreSQL
 - **Authentication**: Django Authentication System with extended user profiles
 - **Responsive Design**: Mobile-first approach
 - **Form Handling**: Custom Django forms with advanced styling
@@ -141,7 +141,7 @@ Eventure is a comprehensive event management platform built with Django, designe
 
 - **Name**: Mohammad Marouful Islam Zishan
 - **LinkedIn**: [linkedin.com/in/mohammad-marouful-islam-zishan](https://linkedin.com/in/mohammad-marouful-islam-zishan)
-- **GitHub**: [github.com/zishan344](https://github.com/yourusername)
+- **GitHub**: [github.com/zishan344](https://github.com/zishan344)
 
 ## License
 
